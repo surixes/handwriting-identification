@@ -86,11 +86,11 @@ def identify(path):
 # 5) Пример использования
 if __name__ == '__main__':
     # -- Шаг 1: регистрируем двух людей
-    register_person('Maksim', ['I1.png', 'I2.png', 'I3.png'])
-    register_person('Mil`a',   ['M1.png', 'M2.png', 'M3.png'])
-    register_person('Timofei', ['T1.png', 'T2.png', 'T3.png', 'T4.png', 'T5.png'])
-    register_person('Landish', ['L1.png', 'L2.png', 'L3.png'])
+    register_person('Maksim', ['photos/I1.png', 'photos/I2.png', 'photos/I3.png'])
+    register_person('Mil`a',   ['photos/M1.png', 'photos/M2.png', 'photos/M3.png'])
+    register_person('Timofei', ['photos/T1.png', 'photos/T2.png', 'photos/T3.png', 'photos/T4.png', 'photos/T5.png'])
+    register_person('Landish', ['photos/L1.png', 'photos/L2.png', 'photos/L3.png'])
 
     # -- Шаг 2: идентифицируем нового образца
-    name, score = identify('inputT.png')
+    name, score = identify('photos/inputT.png')
     print(f'Это {name} (score={score:.3f})')
