@@ -60,9 +60,10 @@ def register_person(name, sample_paths):
     sample_paths: список путей к изображениям рукописи человека
     """
     embs = [get_embedding(p) for p in sample_paths]
-    proto = np.mean(embs, axis=0).tolist()
+    proto = np.mean(embs, axis=0)
+    proto = proto / np.linalg.norm(proto)
     db = load_prototypes()
-    db[name] = proto
+    db[name] = proto.tolist()
     save_prototypes(db)
     print(f'Зарегистрирован: {name}')
 
@@ -86,8 +87,10 @@ def identify(path):
 if __name__ == '__main__':
     # -- Шаг 1: регистрируем двух людей
     register_person('Maksim', ['I1.png', 'I2.png', 'I3.png'])
-    register_person('Mil`a',   ['M1.png',   'M2.png',   'M3.png'])
+    register_person('Mil`a',   ['M1.png', 'M2.png', 'M3.png'])
+    register_person('Timofei', ['T1.png', 'T2.png', 'T3.png', 'T4.png', 'T5.png'])
+    register_person('Landish', ['L1.png', 'L2.png', 'L3.png'])
 
     # -- Шаг 2: идентифицируем нового образца
-    name, score = identify('inputM.png')
+    name, score = identify('inputT.png')
     print(f'Это {name} (score={score:.3f})')
