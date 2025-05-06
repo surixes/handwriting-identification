@@ -82,7 +82,7 @@ class DeepWriter_Train:
         
         self.imgtype=imgtype
         self.mode = mode
-        self.device = 'cuda'
+        self.device = torch.device('cpu')
         self.scale_size=(64,128)
         
         if self.device == 'cuda':
@@ -218,7 +218,7 @@ class DeepWriter_Train:
             
             res = []
             for k in topk:
-                correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
+                correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
                 res.append(correct_k.data.cpu().numpy())
         
         return res

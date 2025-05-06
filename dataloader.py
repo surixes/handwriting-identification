@@ -11,7 +11,8 @@ This code is used for writer identification based on deep learning
 import os
 import pickle
 import numpy as np
-from scipy import misc
+import imageio
+from PIL import Image
 import torch.utils.data as data
 import torch
 from torchvision.transforms import Compose, ToTensor
@@ -113,7 +114,11 @@ class DatasetFromFolder(data.Dataset):
                 nh = int(ratio * h)
                 nw = int(ratio * w)
                 
-                imre = misc.imresize(image,(nh,nw))
+                # создаём PIL-объект, масштабируем и возвращаем numpy-массив
+                im_pil = Image.fromarray(image)
+                imresized = im_pil.resize((nw, nh), resample=Image.BICUBIC)
+                imre = np.array(imresized)
+
                 
                 imre = 255 - imre
                 ch,cw = imre.shape[:2]
@@ -146,7 +151,9 @@ class DatasetFromFolder(data.Dataset):
                 imgfile = self.imglist[index]
                 writer = self.idx_tab[self._get_identity(imgfile)]
                 
-                image = misc.imread(self.folder + imgfile,mode='L')
+                image = imageio.imread(self.folder + imgfile)
+                if image.ndim == 3:
+                       image = np.array(Image.fromarray(image).convert('L'))
                 image,hfirst = self.resize(image)
                 image = image / 255.0
 

@@ -1,0 +1,4 @@
+/venv/
+/CERUG-EN/
+*.log
+/__pycache__/
