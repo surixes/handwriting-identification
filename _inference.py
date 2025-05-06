@@ -33,3 +33,6 @@ if __name__ == '__main__':
     sample = 'inputM.png'
     author_id = predict(sample)
     print(f'Предсказанный ID автора: {author_id}')
+
+# CERUG-ENCERUG-ENwriter_index_table.pickle *.png prototypes.json _inference.py /models/
+# Запуск python python trainGRRNN.py .\personalized_writer_id.py
