@@ -67,21 +67,41 @@ def register_person(name, sample_paths):
     save_prototypes(db)
     print(f'Зарегистрирован: {name}')
 
-def identify(path):
-    """
-    Возвращает имя наиболее похожего прототипа
-    """
+# def identify(path):
+#     """
+#     Возвращает имя наиболее похожего прототипа
+#     """
+#     db = load_prototypes()
+#     if not db:
+#         raise RuntimeError("Нет зарегистрированных пользователей")
+#     query = get_embedding(path)
+#     # Косинусное сходство
+#     sims = {}
+#     for name, proto in db.items():
+#         sims[name] = np.dot(query, proto) / (np.linalg.norm(proto) + 1e-8)
+#     # выбираем максимальную
+#     best = max(sims, key=sims.get)
+#     return best, sims[best]
+
+def identify_with_calibration(path, temperature=1.0):
     db = load_prototypes()
-    if not db:
-        raise RuntimeError("Нет зарегистрированных пользователей")
-    query = get_embedding(path)
-    # Косинусное сходство
-    sims = {}
-    for name, proto in db.items():
-        sims[name] = np.dot(query, proto) / (np.linalg.norm(proto) + 1e-8)
-    # выбираем максимальную
-    best = max(sims, key=sims.get)
-    return best, sims[best]
+    query = get_embedding(path)            # L2-нормирован
+    names = list(db.keys())
+    # выбираем меру: cosine или −L2
+    # 1) cos_logits = [np.dot(query, p) for p in db.values()]
+    # 2) neg_dists   = [-np.linalg.norm(query - p)/temperature for p in db.values()]
+    
+    # Здесь пример для −L2:
+    neg_dists = np.array([
+        -np.linalg.norm(query - np.array(proto)) / temperature
+        for proto in db.values()
+    ])
+    # Softmax
+    exps = np.exp(neg_dists - np.max(neg_dists))
+    probs = exps / exps.sum()
+    idx = np.argmax(probs)
+    return names[idx], probs[idx] * 100
+
 
 # 5) Пример использования
 if __name__ == '__main__':
@@ -92,5 +112,5 @@ if __name__ == '__main__':
     register_person('Landish', ['photos/L1.png', 'photos/L2.png', 'photos/L3.png'])
 
     # -- Шаг 2: идентифицируем нового образца
-    name, score = identify('photos/inputT.png')
-    print(f'Это {name} (score={score:.3f})')
+    best, conf = identify_with_calibration('photos/inputL1.png', temperature=0.5)
+    print(f"Это {best} (уверенность: {conf:.1f} %)")
