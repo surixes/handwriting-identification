@@ -6,9 +6,13 @@ from GRRNN import GrnnNet
 from PIL import Image
 import numpy as np
 from torchvision.transforms import ToTensor
+from pathlib import Path
 
 # 1) Настройки
-BACKBONE_WEIGHTS = 'model/GRRNN_WriterIdentification_dataset_CERUG-EN_model_vertical_aug_16-model_epoch_49.pth'
+current_dir = Path(__file__).parent
+
+# Формируем абсолютный путь к модели
+BACKBONE_WEIGHTS = current_dir / "model" / "GRRNN_WriterIdentification_dataset_CERUG-EN_model_vertical_aug_16-model_epoch_49.pth"
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 EMBED_DIM = 512           # размер скрытого состояния RNN в GRRNN
 PROTO_DB = 'prototypes.json'
@@ -65,7 +69,7 @@ def register_person(name, sample_paths):
     db = load_prototypes()
     db[name] = proto.tolist()
     save_prototypes(db)
-    print(f'Зарегистрирован: {name}')
+    # print(f'Зарегистрирован: {name}')
 
 def identify(path):
     """

@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Документация | Кто я?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 50%,
+          #d946ef 100%
+        );
+      }
+
+      .sidebar {
+        scrollbar-width: thin;
+        scrollbar-color: #c7d2fe #f1f5f9;
+      }
+
+      .sidebar::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .sidebar::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+
+      .sidebar::-webkit-scrollbar-thumb {
+        background-color: #c7d2fe;
+        border-radius: 20px;
+      }
+
+      .content-section {
+        scroll-margin-top: 100px;
+      }
+
+      .code-block {
+        background-color: #1e293b;
+        color: #f8fafc;
+        font-family: "Courier New", monospace;
+      }
+
+      .api-method {
+        border-left: 4px solid #6366f1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="gradient-bg text-white sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-4">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              <i class="fas fa-signature text-2xl"></i>
+              <h1 class="text-2xl font-bold">Кто я?</h1>
+            </div>
+            <nav>
+              <ul class="flex space-x-6">
+                <li>
+                  <a
+                    href="index.html"
+                    class="hover:underline font-medium nav-link"
+                    >Главная</a
+                  >
+                </li>
+                <li>
+                  <a href="docs.html" class="hover:underline nav-link"
+                    >Документация</a
+                  >
+                </li>
+                <li>
+                  <a href="contacts.html" class="hover:underline nav-link"
+                    >Контакты</a
+                  >
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <div class="flex flex-1">
+        <!-- Sidebar -->
+        <aside
+          class="w-64 bg-white shadow-md hidden md:block sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto sidebar"
+        >
+          <div class="p-4">
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold text-slate-800 mb-3">
+                Документация
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a
+                    href="#introduction"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-book-open mr-2"></i> Введение
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#quick-start"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-rocket mr-2"></i> Быстрый старт
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#api-reference"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-code mr-2"></i> API Reference
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#algorithms"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-brain mr-2"></i> Алгоритмы
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#best-practices"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-check-circle mr-2"></i> Best Practices
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#faq"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-question-circle mr-2"></i> FAQ
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold text-slate-800 mb-3">
+                API Endpoints
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a
+                    href="#verify"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-exchange-alt mr-2 text-xs"></i> /api/verify
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#add-user"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-user-plus mr-2 text-xs"></i> /api/users
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#get-results"
+                    class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                  >
+                    <i class="fas fa-database mr-2 text-xs"></i> /api/results
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Mobile Sidebar Button -->
+        <button
+          id="sidebar-toggle"
+          class="md:hidden fixed bottom-6 right-6 bg-indigo-600 text-white w-12 h-12 rounded-full shadow-lg z-20 flex items-center justify-center"
+        >
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+
+        <!-- Mobile Sidebar -->
+        <div
+          id="mobile-sidebar"
+          class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"
+        >
+          <div
+            class="absolute top-0 left-0 w-64 h-full bg-white shadow-lg transform transition-transform duration-300 -translate-x-full"
+          >
+            <div class="p-4">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold">Меню</h3>
+                <button id="close-sidebar" class="text-slate-500">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+
+              <div class="mb-6">
+                <h4 class="text-md font-medium text-slate-800 mb-3">
+                  Документация
+                </h4>
+                <ul class="space-y-2">
+                  <li>
+                    <a
+                      href="#introduction"
+                      class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                    >
+                      <i class="fas fa-book-open mr-2"></i> Введение
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#quick-start"
+                      class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                    >
+                      <i class="fas fa-rocket mr-2"></i> Быстрый старт
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#api-reference"
+                      class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                    >
+                      <i class="fas fa-code mr-2"></i> API Reference
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#algorithms"
+                      class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                    >
+                      <i class="fas fa-brain mr-2"></i> Алгоритмы
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="text-md font-medium text-slate-800 mb-3">
+                  API Endpoints
+                </h4>
+                <ul class="space-y-2">
+                  <li>
+                    <a
+                      href="#verify"
+                      class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                    >
+                      <i class="fas fa-exchange-alt mr-2 text-xs"></i>
+                      /api/verify
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#add-user"
+                      class="flex items-center px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                    >
+                      <i class="fas fa-user-plus mr-2 text-xs"></i> /api/users
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documentation Content -->
+        <main class="flex-1 p-6 md:p-8 lg:p-12">
+          <div class="max-w-4xl mx-auto">
+            <!-- Introduction -->
+            <section id="introduction" class="content-section mb-16">
+              <div class="flex items-center mb-6">
+                <i class="fas fa-book-open text-2xl text-indigo-500 mr-3"></i>
+                <h2 class="text-3xl font-bold">Введение</h2>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <p class="text-slate-700 mb-4">
+                  Система верификации рукописного текста "Кто я?" позволяет
+                  идентифицировать автора рукописного текста на основе
+                  предоставленных образцов почерка.
+                </p>
+
+                <p class="text-slate-700 mb-4">
+                  Система использует современные алгоритмы машинного обучения и
+                  компьютерного зрения для анализа уникальных характеристик
+                  почерка, таких как:
+                </p>
+
+                <ul class="list-disc pl-6 mb-4 text-slate-700 space-y-2">
+                  <li>Наклон букв</li>
+                  <li>Размер и пропорции символов</li>
+                  <li>Давление при письме</li>
+                  <li>Уникальные особенности написания отдельных букв</li>
+                  <li>Пространственное расположение текста</li>
+                </ul>
+
+                <div
+                  class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r"
+                >
+                  <div class="flex">
+                    <div class="flex-shrink-0">
+                      <i class="fas fa-info-circle text-indigo-500"></i>
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-sm text-indigo-700">
+                        Для достижения наилучших результатов рекомендуется
+                        предоставлять несколько образцов почерка (3-5 страниц)
+                        для каждого пользователя.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                  <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                    <i class="fas fa-check-circle mr-2"></i> Преимущества
+                  </h3>
+                  <ul class="space-y-3 text-slate-700">
+                    <li class="flex items-start">
+                      <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                      <span
+                        >Точность до 95% при достаточном количестве
+                        образцов</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                      <span>Поддержка различных языков и алфавитов</span>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                      <span>Простое API для интеграции</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                  <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                    <i class="fas fa-exclamation-triangle mr-2"></i> Ограничения
+                  </h3>
+                  <ul class="space-y-3 text-slate-700">
+                    <li class="flex items-start">
+                      <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                      <span>Требует качественных изображений (300+ DPI)</span>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                      <span
+                        >Может ошибаться при анализе очень коротких
+                        текстов</span
+                      >
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                      <span>Не работает с печатным текстом</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- Quick Start -->
+            <section id="quick-start" class="content-section mb-16">
+              <div class="flex items-center mb-6">
+                <i class="fas fa-rocket text-2xl text-indigo-500 mr-3"></i>
+                <h2 class="text-3xl font-bold">Быстрый старт</h2>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-slate-800">
+                  1. Добавление пользователей
+                </h3>
+                <p class="text-slate-700 mb-4">
+                  Перед началом работы необходимо добавить пользователей в
+                  систему с образцами их почерка.
+                </p>
+
+                <div class="mb-6">
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                      >Шаг 1</span
+                    >
+                    <h4 class="text-lg font-medium text-slate-800">
+                      Соберите образцы почерка
+                    </h4>
+                  </div>
+                  <p class="text-slate-600 pl-8">
+                    Попросите пользователя написать несколько страниц текста
+                    (рекомендуется 3-5 страниц). Текст должен быть написан в
+                    обычных условиях, без специального старания изменить почерк.
+                  </p>
+                </div>
+
+                <div class="mb-6">
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                      >Шаг 2</span
+                    >
+                    <h4 class="text-lg font-medium text-slate-800">
+                      Отсканируйте или сфотографируйте текст
+                    </h4>
+                  </div>
+                  <p class="text-slate-600 pl-8">
+                    Используйте сканер с разрешением не менее 300 DPI или камеру
+                    с хорошим качеством. Избегайте бликов, теней и искажений.
+                  </p>
+                </div>
+
+                <div class="mb-6">
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                      >Шаг 3</span
+                    >
+                    <h4 class="text-lg font-medium text-slate-800">
+                      Загрузите в систему
+                    </h4>
+                  </div>
+                  <p class="text-slate-600 pl-8">
+                    Используйте веб-интерфейс или API для загрузки изображений и
+                    создания профиля пользователя.
+                  </p>
+                  <div class="mt-4 pl-8">
+                    <pre
+                      class="code-block rounded-lg p-4 text-sm"
+                    ><code>POST /api/users
+Content-Type: multipart/form-data
+
+{
+    "name": "Иван Петров",
+    "userId": "user123",
+    "samples": ["sample1.jpg", "sample2.jpg"]
+}</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4 text-slate-800">
+                  2. Верификация текста
+                </h3>
+                <p class="text-slate-700 mb-4">
+                  После добавления пользователей вы можете проверять новые
+                  образцы текста на принадлежность конкретному автору.
+                </p>
+
+                <div class="mb-6">
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                      >Шаг 1</span
+                    >
+                    <h4 class="text-lg font-medium text-slate-800">
+                      Подготовьте текст для проверки
+                    </h4>
+                  </div>
+                  <p class="text-slate-600 pl-8">
+                    Получите изображение рукописного текста, автора которого
+                    нужно определить. Чем больше текст, тем точнее будет
+                    результат.
+                  </p>
+                </div>
+
+                <div class="mb-6">
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                      >Шаг 2</span
+                    >
+                    <h4 class="text-lg font-medium text-slate-800">
+                      Отправьте на проверку
+                    </h4>
+                  </div>
+                  <p class="text-slate-600 pl-8">
+                    Используйте веб-интерфейс или API для отправки изображения.
+                  </p>
+                  <div class="mt-4 pl-8">
+                    <pre
+                      class="code-block rounded-lg p-4 text-sm"
+                    ><code>POST /api/verify
+Content-Type: multipart/form-data
+
+{
+    "image": "unknown_text.jpg"
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="mb-6">
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                      >Шаг 3</span
+                    >
+                    <h4 class="text-lg font-medium text-slate-800">
+                      Получите результаты
+                    </h4>
+                  </div>
+                  <p class="text-slate-600 pl-8">
+                    Система вернет возможного автора с оценкой вероятности
+                    совпадения.
+                  </p>
+                  <div class="mt-4 pl-8">
+                    <pre class="code-block rounded-lg p-4 text-sm"><code>{
+    "success": true,
+    "requestId": "req_123456789",
+    "results": [
+        {
+            "userId": "user_123",
+            "user_info": [
+                {
+                  "full_name": "Иван Петров",
+                  "notes": "Сотрудник ФСБ"
+                }
+            ],
+            "confidence": 0.92
+        }
+    ]
+}</code></pre>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- API Reference -->
+            <section id="api-reference" class="content-section mb-16">
+              <div class="flex items-center mb-6">
+                <i class="fas fa-code text-2xl text-indigo-500 mr-3"></i>
+                <h2 class="text-3xl font-bold">API Reference</h2>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-slate-800">
+                  Базовый URL
+                </h3>
+                <div class="bg-slate-50 p-4 rounded-lg mb-4">
+                  <code class="text-indigo-600 font-mono"
+                    >https://api.kto-ya.ru/v1</code
+                  >
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4 text-slate-800">
+                  Аутентификация
+                </h3>
+                <p class="text-slate-700 mb-4">
+                  Для доступа к API требуется API-ключ. Получите его в личном
+                  кабинете после регистрации.
+                </p>
+                <div class="mb-4">
+                  <pre
+                    class="code-block rounded-lg p-4 text-sm"
+                  ><code>curl -H "Authorization: Bearer YOUR_API_KEY" https://api.kto-ya.ru/v1/users</code></pre>
+                </div>
+              </div>
+
+              <!-- Verify Endpoint -->
+              <div
+                id="verify"
+                class="bg-white rounded-xl shadow-sm p-6 mb-6 api-method"
+              >
+                <div class="flex items-start mb-4">
+                  <span
+                    class="bg-indigo-600 text-white text-xs font-semibold mr-3 px-2.5 py-1 rounded uppercase"
+                    >POST</span
+                  >
+                  <h3 class="text-xl font-semibold text-slate-800 flex-1">
+                    /api/verify
+                  </h3>
+                </div>
+
+                <p class="text-slate-700 mb-4">
+                  Отправляет изображение рукописного текста для определения
+                  автора.
+                </p>
+
+                <h4 class="font-medium text-slate-800 mb-2">
+                  Параметры запроса
+                </h4>
+                <div class="overflow-x-auto mb-4">
+                  <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Параметр
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Тип
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Обязательный
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Описание
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-slate-200">
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-mono text-indigo-600"
+                        >
+                          image
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          File
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Да
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-500">
+                          Изображение рукописного текста (JPG, PNG)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-mono text-indigo-600"
+                        >
+                          threshold
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Float
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Нет
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-500">
+                          Порог уверенности (по умолчанию 0.7)
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h4 class="font-medium text-slate-800 mb-2">Пример запроса</h4>
+                <div class="mb-4">
+                  <pre
+                    class="code-block rounded-lg p-4 text-sm"
+                  ><code>curl -X POST \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -F "image=@unknown_text.jpg" \
+  https://api.kto-ya.ru/v1/verify</code></pre>
+                </div>
+
+                <h4 class="font-medium text-slate-800 mb-2">Пример ответа</h4>
+                <div class="mb-4">
+                  <pre class="code-block rounded-lg p-4 text-sm"><code>{
+    "success": true,
+    "requestId": "req_123456789",
+    "results": [
+        {
+            "userId": "user_123",
+            "user_info": [
+                {
+                  "full_name": "Иван Петров",
+                  "notes": "Сотрудник ФСБ"
+                }
+            ],
+            "confidence": 0.92
+        }
+    ]
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- Add User Endpoint -->
+              <div
+                id="add-user"
+                class="bg-white rounded-xl shadow-sm p-6 mb-6 api-method"
+              >
+                <div class="flex items-start mb-4">
+                  <span
+                    class="bg-green-600 text-white text-xs font-semibold mr-3 px-2.5 py-1 rounded uppercase"
+                    >POST</span
+                  >
+                  <h3 class="text-xl font-semibold text-slate-800 flex-1">
+                    /api/users
+                  </h3>
+                </div>
+
+                <p class="text-slate-700 mb-4">
+                  Добавляет нового пользователя с образцами почерка в базу
+                  данных.
+                </p>
+
+                <h4 class="font-medium text-slate-800 mb-2">
+                  Параметры запроса
+                </h4>
+                <div class="overflow-x-auto mb-4">
+                  <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Параметр
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Тип
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Обязательный
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Описание
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-slate-200">
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-mono text-indigo-600"
+                        >
+                          name
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          String
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Да
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-500">
+                          ФИО пользователя
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-mono text-indigo-600"
+                        >
+                          userId
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          String
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Да
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-500">
+                          Уникальный идентификатор пользователя
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-mono text-indigo-600"
+                        >
+                          samples
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          File[]
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Да
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-500">
+                          Образцы почерка (3-4 изображений)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-mono text-indigo-600"
+                        >
+                          metadata
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Object
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Нет
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-500">
+                          Дополнительные данные о пользователе
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h4 class="font-medium text-slate-800 mb-2">Пример запроса</h4>
+                <div class="mb-4">
+                  <pre
+                    class="code-block rounded-lg p-4 text-sm"
+                  ><code>curl -X POST \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -F "name=Иван Петров" \
+  -F "userId=user123" \
+  -F "samples=@sample1.jpg" \
+  -F "samples=@sample2.jpg" \
+  -F "samples=@sample3.jpg" \
+  -F "samples=@sample4.jpg" \
+  https://api.kto-ya.ru/v1/users</code></pre>
+                </div>
+
+                <h4 class="font-medium text-slate-800 mb-2">Пример ответа</h4>
+                <div class="mb-4">
+                  <pre class="code-block rounded-lg p-4 text-sm"><code>{
+    "success": true,
+    "userId": "user123",
+    "samplesProcessed": 4
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- Get Results Endpoint -->
+              <div
+                id="get-results"
+                class="bg-white rounded-xl shadow-sm p-6 api-method"
+              >
+                <div class="flex items-start mb-4">
+                  <span
+                    class="bg-blue-600 text-white text-xs font-semibold mr-3 px-2.5 py-1 rounded uppercase"
+                    >GET</span
+                  >
+                  <h3 class="text-xl font-semibold text-slate-800 flex-1">
+                    /api/results/{requestId}
+                  </h3>
+                </div>
+
+                <p class="text-slate-700 mb-4">
+                  Получает результаты верификации по ID запроса.
+                </p>
+
+                <h4 class="font-medium text-slate-800 mb-2">Параметры пути</h4>
+                <div class="overflow-x-auto mb-4">
+                  <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Параметр
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Тип
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Обязательный
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                        >
+                          Описание
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-slate-200">
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-mono text-indigo-600"
+                        >
+                          requestId
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          String
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                        >
+                          Да
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-500">
+                          ID запроса на верификацию
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h4 class="font-medium text-slate-800 mb-2">Пример запроса</h4>
+                <div class="mb-4">
+                  <pre
+                    class="code-block rounded-lg p-4 text-sm"
+                  ><code>curl -H "Authorization: Bearer YOUR_API_KEY" \
+  https://api.kto-ya.ru/v1/results/req_123456789</code></pre>
+                </div>
+
+                <h4 class="font-medium text-slate-800 mb-2">Пример ответа</h4>
+                <div>
+                  <pre class="code-block rounded-lg p-4 text-sm"><code>{
+    "success": true,
+    "status": "completed",
+    "results": [
+        {
+            "userId": "user123",
+            "name": "Иван Петров",
+            "confidence": 0.92
+        }
+    ],
+    "completedAt": "2023-05-15T14:31:45Z"
+}</code></pre>
+                </div>
+              </div>
+            </section>
+
+            <!-- Algorithms -->
+            <section id="algorithms" class="content-section mb-16">
+              <div class="flex items-center mb-6">
+                <i class="fas fa-brain text-2xl text-indigo-500 mr-3"></i>
+                <h2 class="text-3xl font-bold">Алгоритмы</h2>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-slate-800">
+                  Как это работает
+                </h3>
+                <p class="text-slate-700 mb-4">
+                  Наша система использует комбинацию традиционных методов
+                  анализа почерка и современных алгоритмов машинного обучения
+                  для достижения высокой точности верификации.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div class="bg-slate-50 rounded-lg p-4">
+                    <h4 class="font-medium text-lg text-indigo-600 mb-2">
+                      <i class="fas fa-project-diagram mr-2"></i> Feature
+                      Extraction
+                    </h4>
+                    <p class="text-slate-600">
+                      Извлечение более 50 характеристик почерка, включая
+                      геометрические, статистические и топологические
+                      особенности.
+                    </p>
+                  </div>
+
+                  <div class="bg-slate-50 rounded-lg p-4">
+                    <h4 class="font-medium text-lg text-indigo-600 mb-2">
+                      <i class="fas fa-network-wired mr-2"></i> Neural Networks
+                    </h4>
+                    <p class="text-slate-600">
+                      Глубокие сверточные сети (CNN) для анализа целостного
+                      образа почерка и выявления сложных паттернов.
+                    </p>
+                  </div>
+
+                  <div class="bg-slate-50 rounded-lg p-4">
+                    <h4 class="font-medium text-lg text-indigo-600 mb-2">
+                      <i class="fas fa-random mr-2"></i> Random Forest
+                    </h4>
+                    <p class="text-slate-600">
+                      Ансамблевый метод для классификации на основе извлеченных
+                      характеристик с оценкой важности каждой из них.
+                    </p>
+                  </div>
+
+                  <div class="bg-slate-50 rounded-lg p-4">
+                    <h4 class="font-medium text-lg text-indigo-600 mb-2">
+                      <i class="fas fa-chart-line mr-2"></i> Similarity Scoring
+                    </h4>
+                    <p class="text-slate-600">
+                      Композитная оценка сходства с учетом весов различных
+                      характеристик для каждого конкретного пользователя.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="border-t border-slate-200 pt-6">
+                  <h4 class="font-medium text-lg text-slate-800 mb-3">
+                    Технические характеристики
+                  </h4>
+                  <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200">
+                      <thead class="bg-slate-50">
+                        <tr>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                          >
+                            Метрика
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                          >
+                            Значение
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                          >
+                            Описание
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-slate-200">
+                        <tr>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800"
+                          >
+                            Точность
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                          >
+                            92-95%
+                          </td>
+                          <td class="px-6 py-4 text-sm text-slate-500">
+                            При 5+ образцах на пользователя
+                          </td>
+                        </tr>
+                        <tr>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800"
+                          >
+                            Время обработки
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                          >
+                            1-3 сек
+                          </td>
+                          <td class="px-6 py-4 text-sm text-slate-500">
+                            На страницу текста
+                          </td>
+                        </tr>
+                        <tr>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800"
+                          >
+                            Размер модели
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                          >
+                            85 MB
+                          </td>
+                          <td class="px-6 py-4 text-sm text-slate-500">
+                            Оптимизированная версия
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section id="best-practices" class="content-section mb-16">
+              <div class="flex items-center mb-6">
+                <i
+                  class="fas fa-check-circle text-2xl text-indigo-500 mr-3"
+                ></i>
+                <h2 class="text-3xl font-bold">Best Practices</h2>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-slate-800">
+                  Сбор образцов
+                </h3>
+                <ul class="space-y-4">
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0 pt-1">
+                      <div
+                        class="flex items-center justify-center h-5 w-5 rounded-full bg-green-100 text-green-600"
+                      >
+                        <i class="fas fa-check text-xs"></i>
+                      </div>
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-sm text-slate-700">
+                        Используйте разные ручки (шариковая, гелевая) для сбора
+                        образцов
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0 pt-1">
+                      <div
+                        class="flex items-center justify-center h-5 w-5 rounded-full bg-green-100 text-green-600"
+                      >
+                        <i class="fas fa-check text-xs"></i>
+                      </div>
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-sm text-slate-700">
+                        Включайте образцы, написанные в разное время суток
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0 pt-1">
+                      <div
+                        class="flex items-center justify-center h-5 w-5 rounded-full bg-green-100 text-green-600"
+                      >
+                        <i class="fas fa-check text-xs"></i>
+                      </div>
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-sm text-slate-700">
+                        Собирайте образцы с разным содержанием (текст, цифры,
+                        подписи)
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-slate-800">
+                  Качество изображений
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 class="font-medium text-slate-800 mb-2">
+                      <i class="fas fa-thumbs-up text-green-500 mr-2"></i>
+                      Рекомендуется
+                    </h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                      <li class="flex items-start">
+                        <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        <span>Разрешение 300+ DPI</span>
+                      </li>
+                      <li class="flex items-start">
+                        <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        <span>Ровное освещение без теней</span>
+                      </li>
+                      <li class="flex items-start">
+                        <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        <span>Фон контрастный, но не отвлекающий</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-slate-800 mb-2">
+                      <i class="fas fa-thumbs-down text-red-500 mr-2"></i> Не
+                      рекомендуется
+                    </h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                      <li class="flex items-start">
+                        <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                        <span>Размытые или нечеткие изображения</span>
+                      </li>
+                      <li class="flex items-start">
+                        <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                        <span>Сильные искажения перспективы</span>
+                      </li>
+                      <li class="flex items-start">
+                        <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                        <span>Водяные знаки или наложения</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4 text-slate-800">
+                  Интеграция с API
+                </h3>
+                <div class="space-y-4">
+                  <div class="p-4 bg-indigo-50 rounded-lg">
+                    <h4 class="font-medium text-indigo-700 mb-2">
+                      <i class="fas fa-lightbulb mr-2"></i> Совет 1: Кэширование
+                      результатов
+                    </h4>
+                    <p class="text-sm text-indigo-600">
+                      Сохраняйте requestId для повторного запроса результатов,
+                      чтобы избежать повторной обработки.
+                    </p>
+                  </div>
+
+                  <div class="p-4 bg-indigo-50 rounded-lg">
+                    <h4 class="font-medium text-indigo-700 mb-2">
+                      <i class="fas fa-lightbulb mr-2"></i> Совет 2: Пакетная
+                      загрузка
+                    </h4>
+                    <p class="text-sm text-indigo-600">
+                      При добавлении новых пользователей загружайте образцы
+                      пачками по 5-10 для ускорения обработки.
+                    </p>
+                  </div>
+
+                  <div class="p-4 bg-indigo-50 rounded-lg">
+                    <h4 class="font-medium text-indigo-700 mb-2">
+                      <i class="fas fa-lightbulb mr-2"></i> Совет 3: Оптимальный
+                      threshold
+                    </h4>
+                    <p class="text-sm text-indigo-600">
+                      Начинайте с threshold=0.7 и регулируйте в зависимости от
+                      требований к точности.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- FAQ -->
+            <section id="faq" class="content-section">
+              <div class="flex items-center mb-6">
+                <i
+                  class="fas fa-question-circle text-2xl text-indigo-500 mr-3"
+                ></i>
+                <h2 class="text-3xl font-bold">FAQ</h2>
+              </div>
+
+              <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div class="divide-y divide-slate-200">
+                  <!-- Question 1 -->
+                  <div x-data="{ open: false }" class="p-6">
+                    <button
+                      @click="open = !open"
+                      class="flex justify-between items-center w-full text-left"
+                    >
+                      <h3 class="text-lg font-medium text-slate-800">
+                        Какое минимальное количество образцов нужно для точной
+                        верификации?
+                      </h3>
+                      <i
+                        :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                        class="text-indigo-500"
+                      ></i>
+                    </button>
+                    <div x-show="open" class="mt-3 text-slate-600">
+                      <p>
+                        Мы рекомендуем предоставлять не менее 3-4 страниц
+                        рукописного текста для каждого пользователя. Чем больше
+                        образцов, тем точнее будет результат.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Question 2 -->
+                  <div x-data="{ open: false }" class="p-6">
+                    <button
+                      @click="open = !open"
+                      class="flex justify-between items-center w-full text-left"
+                    >
+                      <h3 class="text-lg font-medium text-slate-800">
+                        Можно ли определить автора, если он специально изменил
+                        почерк?
+                      </h3>
+                      <i
+                        :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                        class="text-indigo-500"
+                      ></i>
+                    </button>
+                    <div x-show="open" class="mt-3 text-slate-600">
+                      <p>
+                        Наша система способна обнаруживать попытки намеренного
+                        изменения почерка с точностью около 60%. Однако при
+                        профессиональной имитации (например, графологами)
+                        точность снижается. В таких случаях мы рекомендуем
+                        использовать дополнительные методы аутентификации.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Question 3 -->
+                  <div x-data="{ open: false }" class="p-6">
+                    <button
+                      @click="open = !open"
+                      class="flex justify-between items-center w-full text-left"
+                    >
+                      <h3 class="text-lg font-medium text-slate-800">
+                        Как долго хранятся данные пользователей?
+                      </h3>
+                      <i
+                        :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                        class="text-indigo-500"
+                      ></i>
+                    </button>
+                    <div x-show="open" class="mt-3 text-slate-600">
+                      <p>
+                        По умолчанию данные хранятся 3 года с момента последнего
+                        использования. Вы можете в любой момент запросить
+                        удаление данных конкретного пользователя через обращение
+                        по электронной почте. Все данные хранятся в
+                        зашифрованном виде и соответствуют GDPR.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Question 4 -->
+                  <div x-data="{ open: false }" class="p-6">
+                    <button
+                      @click="open = !open"
+                      class="flex justify-between items-center w-full text-left"
+                    >
+                      <h3 class="text-lg font-medium text-slate-800">
+                        Можно ли интегрировать систему с моим приложением?
+                      </h3>
+                      <i
+                        :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                        class="text-indigo-500"
+                      ></i>
+                    </button>
+                    <div x-show="open" class="mt-3 text-slate-600">
+                      <p>
+                        Да, наше API разработано специально для легкой
+                        интеграции. Мы предоставляем все необходимые Endpoint
+                        для удобной интеграции в ваши проекты! Подробнее:
+                        <a
+                          href="#api-reference"
+                          class="text-indigo-600 hover:underline"
+                          >API Reference</a
+                        >.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+
+      <!-- Footer -->
+      <footer class="bg-slate-800 text-white py-8">
+        <div class="container mx-auto px-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Левый блок -->
+            <div class="md:justify-self-start max-w-[500px] md:max-w-[400px]">
+              <div class="flex items-center space-x-2 mb-4">
+                <i class="fas fa-signature text-xl"></i>
+                <span class="font-bold">Кто я?</span>
+              </div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Система верификации рукописного текста с использованием
+                современных технологий искусственного интеллекта.
+              </p>
+            </div>
+
+            <!-- Правый блок -->
+            <div class="md:justify-self-end">
+              <h4 class="font-semibold mb-4">Контакты</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <i
+                    class="fas fa-map-marker-alt text-slate-400 mr-2 text-sm"
+                  ></i>
+                  <span class="text-slate-400"
+                    >г. Москва, улица Образцова, 9с9</span
+                  >
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-phone-alt text-slate-400 mr-2 text-sm"></i>
+                  <span class="text-slate-400">+7 (961) 693-00-63</span>
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-envelope text-slate-400 mr-2 text-sm"></i>
+                  <span class="text-slate-400">support@kto-ya.ru</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="border-t border-slate-700 pt-6 flex flex-col md:flex-row justify-between items-center"
+          >
+            <p class="text-slate-400 text-sm mb-4 md:mb-0">
+              © 2025 Кто я?. Все права защищены.
+            </p>
+
+            <div class="flex space-x-6">
+              <a
+                href="https://t.me/spok_noki5"
+                class="hover:text-indigo-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-telegram"></i
+              ></a>
+              <a
+                href="https://vk.com/zimnin"
+                class="hover:text-indigo-300"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-vk"></i
+              ></a>
+              <a
+                href="https://github.com/surixes/handwriting-identification"
+                class="hover:text-indigo-300"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-github"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+    <script>
+      // Mobile sidebar toggle
+      document.addEventListener("DOMContentLoaded", () => {
+        const sidebarToggle = document.getElementById("sidebar-toggle");
+        const mobileSidebar = document.getElementById("mobile-sidebar");
+        const closeSidebar = document.getElementById("close-sidebar");
+
+        sidebarToggle.addEventListener("click", () => {
+          mobileSidebar.classList.remove("hidden");
+          setTimeout(() => {
+            mobileSidebar
+              .querySelector("div")
+              .classList.remove("-translate-x-full");
+          }, 50);
+        });
+
+        closeSidebar.addEventListener("click", () => {
+          mobileSidebar.querySelector("div").classList.add("-translate-x-full");
+          setTimeout(() => {
+            mobileSidebar.classList.add("hidden");
+          }, 300);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+              // Close mobile sidebar if open
+              if (!mobileSidebar.classList.contains("hidden")) {
+                mobileSidebar
+                  .querySelector("div")
+                  .classList.add("-translate-x-full");
+                setTimeout(() => {
+                  mobileSidebar.classList.add("hidden");
+                }, 300);
+              }
+
+              // Scroll to target
+              setTimeout(() => {
+                targetElement.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }, 350);
+            }
+          });
+        });
+
+        // Highlight current section in sidebar
+        const sections = document.querySelectorAll(".content-section");
+        const navLinks = document.querySelectorAll("aside a");
+
+        window.addEventListener("scroll", () => {
+          let current = "";
+
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+
+            if (pageYOffset >= sectionTop - 200) {
+              current = section.getAttribute("id");
+            }
+          });
+
+          navLinks.forEach((link) => {
+            link.classList.remove("text-indigo-600", "bg-indigo-50");
+            if (link.getAttribute("href") === `#${current}`) {
+              link.classList.add("text-indigo-600", "bg-indigo-50");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
