@@ -6,6 +6,11 @@
     <title>Контакты | Кто я?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
+      rel="icon"
+      href="image.png"
+      type="image/x-icon"
+    />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
@@ -218,44 +223,44 @@
               Форма обратной связи
             </h3>
 
-            <form class="bg-white rounded-xl p-6 shadow-md">
+            <form 
+              class="bg-white rounded-xl p-6 shadow-md"
+              method="POST"
+              action="http://localhost:8000/feedback"
+              id="feedbackForm"
+            >
+              <!-- Добавлены атрибуты name для всех полей -->
               <div class="mb-6">
-                <label
-                  for="name"
-                  class="block text-sm font-medium text-slate-700 mb-1"
-                  >Ваше имя</label
-                >
+                <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Ваше имя</label>
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   class="w-full px-4 py-3 border border-slate-300 rounded-lg form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Иван Иванов"
+                  required
                 />
               </div>
 
               <div class="mb-6">
-                <label
-                  for="email"
-                  class="block text-sm font-medium text-slate-700 mb-1"
-                  >Электронная почта</label
-                >
+                <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Электронная почта</label>
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   class="w-full px-4 py-3 border border-slate-300 rounded-lg form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="example@mail.ru"
+                  required
                 />
               </div>
 
               <div class="mb-6">
-                <label
-                  for="subject"
-                  class="block text-sm font-medium text-slate-700 mb-1"
-                  >Тема сообщения</label
-                >
+                <label for="subject" class="block text-sm font-medium text-slate-700 mb-1">Тема сообщения</label>
                 <select
                   id="subject"
+                  name="subject"
                   class="w-full px-4 py-3 border border-slate-300 rounded-lg form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
                 >
                   <option value="" disabled selected>Выберите тему</option>
                   <option value="support">Техническая поддержка</option>
@@ -266,16 +271,14 @@
               </div>
 
               <div class="mb-6">
-                <label
-                  for="message"
-                  class="block text-sm font-medium text-slate-700 mb-1"
-                  >Ваше сообщение</label
-                >
+                <label for="message" class="block text-sm font-medium text-slate-700 mb-1">Ваше сообщение</label>
                 <textarea
                   id="message"
+                  name="message"
                   rows="5"
                   class="w-full px-4 py-3 border border-slate-300 rounded-lg form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Опишите ваш вопрос или предложение..."
+                  required
                 ></textarea>
               </div>
 
@@ -283,7 +286,9 @@
                 <input
                   type="checkbox"
                   id="consent"
+                  name="consent"
                   class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
+                  required
                 />
                 <label for="consent" class="ml-2 block text-sm text-slate-700">
                   Я согласен на обработку персональных данных
@@ -292,7 +297,7 @@
 
               <button
                 type="submit"
-                class="btn-primary text-white px-6 py-3 rounded-lg font-medium w-full"
+                class="btn-primary text-white px-6 py-3 rounded-lg font-medium w-full bg-indigo-600 hover:bg-indigo-700 transition-colors"
               >
                 <i class="fas fa-paper-plane mr-2"></i> Отправить сообщение
               </button>
@@ -534,6 +539,32 @@
               }, 2000);
             }, 1500);
           });
+        }
+      });
+      // Обработка отправки формы через AJAX
+      document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch('http://localhost:8000/feedback', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+
+          if (response.ok) {
+            e.target.reset();
+          } else {
+            alert('Ошибка при отправке формы');
+          }
+        } catch (error) {
+          console.error('Ошибка:', error);
+          alert('Произошла ошибка при отправке');
         }
       });
     </script>

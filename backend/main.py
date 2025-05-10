@@ -1,3 +1,4 @@
+from utils import send_email
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -7,9 +8,10 @@ import uvicorn
 import uuid
 from datetime import datetime
 from typing import List
-from models import VerificationResult, UserCreate
+from models import FeedbackRequest
 import sys
 from pathlib import Path
+from API import router
 
 root_path = Path(__file__).parent.parent  # Путь к handwriting-identification/
 sys.path.append(str(root_path))
@@ -18,6 +20,7 @@ from personalized_writer_id import register_person, identify
 from BD import get_user_info, register_user, add_request, get_request, create_tables
 
 app = FastAPI(title="ScriptVerify API", version="1.0")
+app.include_router(router)
 
 # Настройка CORS
 app.add_middleware(
@@ -164,6 +167,17 @@ async def get_verification_results(request_id: str):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e)
         )
+
+@app.post("/feedback")
+async def submit_feedback(feedback: FeedbackRequest):
+    if not feedback.consent:
+        raise HTTPException(status_code=400, detail="Требуется согласие на обработку данных")
+    
+    try:
+        send_email(feedback)
+        return {"status": "success", "message": "Сообщение отправлено"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ошибка отправки: {str(e)}")
 
 if __name__ == "__main__":
     

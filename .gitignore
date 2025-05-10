@@ -2,3 +2,4 @@
 /CERUG-EN/
 *.log
 /__pycache__/
+.env

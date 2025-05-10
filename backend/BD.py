@@ -1,16 +1,19 @@
+import os
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extras import Json
 import uuid
+from dotenv import load_dotenv
 
-# Конфигурация подключения к БД
+load_dotenv()
+
 DB_CONFIG = {
-    "dbname": "WhoIam",
-    "user": "postgres",
-    "password": "admin",
-    "host": "localhost",
-    "port": 5432,
-    "client_encoding": "utf8"
+    "dbname": os.getenv("DB_NAME"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "host": os.getenv("DB_HOST"),
+    "port": int(os.getenv("DB_PORT", 5432)),  # Конвертируем в число
+    "client_encoding": os.getenv("DB_CLIENT_ENCODING", "utf8")
 }
 
 def create_tables():
@@ -36,6 +39,15 @@ def create_tables():
                     confidence REAL,
                     completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
+            """)
+
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS api_keys (
+                    key TEXT PRIMARY KEY,
+                    owner TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    is_active BOOLEAN DEFAULT TRUE
+                )
             """)
 
             conn.commit()
