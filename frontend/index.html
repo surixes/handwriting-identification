@@ -473,16 +473,7 @@
               }
             });
 
-            // Валидация
-            if (!formData.get("full_name") || !formData.get("user_id")) {
-              throw new Error(
-                "Заполните обязательные поля (ФИО и Ник пользователя)"
-              );
-            }
 
-            if (!formData.getAll("samples").length) {
-              throw new Error("Добавьте хотя бы один образец почерка");
-            }
 
             // Отправка
             addUserBtn.innerHTML =
@@ -499,10 +490,13 @@
               throw new Error(error.detail || "Ошибка сервера");
             }
 
-            
+            modalUserName.textContent = fullNameInput.value;
+            modalUserId.textContent = userIdInput.value;
+            addUserModal.classList.add("active");
+
             resetForm();
           } catch (error) {
-            alert(`Ошибка: ${error.message}`);
+            
           } finally {
             addUserBtn.innerHTML = '<i class="fas fa-plus mr-2"></i> Добавить';
             addUserBtn.disabled = false;
@@ -712,9 +706,7 @@
           return;
         }
 
-        modalUserName.textContent = fullNameInput.value;
-        modalUserId.textContent = userIdInput.value;
-        addUserModal.classList.add("active");
+        
       });
 
       closeModalBtn.addEventListener("click", () => {
@@ -874,53 +866,56 @@
         }
 
         function showVerificationResult(response) {
+          console.log("Processing result:", response); // Добавляем лог
+          
           const resultContainer = document.getElementById("result-container");
           const resultContent = document.getElementById("result-content");
+          resultContent.innerHTML = "";
 
-          // Проверка существования элементов
-          if (!resultContainer || !resultContent) {
-            console.error("Не найдены элементы для отображения результатов");
-            return;
-          }
-
-          resultContent.innerHTML = ""; // Очищаем только если элемент существует
-
-          // Проверка наличия результатов
+          // Добавляем проверку структуры ответа
           if (!response?.result?.length) {
+            console.error("Invalid response structure");
             resultContent.innerHTML = `
-                  <div class="text-center text-slate-500 py-4">
-                      Нет результатов для отображения
-                  </div>
-              `;
+              <div class="text-center text-red-500 py-4">
+                Ошибка: некорректный формат ответа сервера
+              </div>
+            `;
             resultContainer.classList.remove("hidden");
             return;
           }
 
-          // Обработка каждого результата
           response.result.forEach((userResult) => {
             const template = document.getElementById("result-template");
-            if (!template) {
-              console.error("Шаблон результатов не найден");
-              return;
-            }
-
             const resultCard = template.cloneNode(true);
-            resultCard.id = ""; // Убираем id у клонированного элемента
+            resultCard.id = "";
             resultCard.classList.remove("hidden");
 
-            // Заполнение данных
-            const userNameElem = resultCard.querySelector(
-              '[data-field="user-name"]'
-            );
-            const userIdElem = resultCard.querySelector(
-              '[data-field="user-id"]'
-            );
+            // Добавляем проверку наличия необходимых полей
+            let confidence = userResult.score ?? 
+                              userResult.probability ?? 
+                              userResult.match_percent ?? 
+                              0;
 
-            if (userNameElem && userIdElem) {
-              userNameElem.textContent =
-                userResult.user_info[0]?.full_name || "Неизвестный";
-              userIdElem.textContent = `ID: ${userResult.user_id || "N/A"}`;
-            }
+            confidence = Math.round(confidence * 100);
+
+            const elements = {
+              "user-name": userResult.user_info?.[0]?.full_name || "Неизвестный",
+              "user-id": `ID: ${userResult.user_id || "N/A"}`,
+              "confidence-value": `${confidence}%`,
+              "user-notes": userResult.notes || "Нет дополнительной информации"
+            };
+
+            // Обновляем элементы с проверкой
+            Object.entries(elements).forEach(([field, value]) => {
+              const element = resultCard.querySelector(`[data-field="${field}"]`);
+              if (element) {
+                element.textContent = value;
+                if (field === "confidence-value") {
+                  element.style.color = confidence > 50 ? "#10b981" : "#ef4444";
+                  element.style.fontWeight = "600";
+                }
+              }
+            });
 
             resultContent.appendChild(resultCard);
           });
