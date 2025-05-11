@@ -22,6 +22,8 @@ import dataloader as dset
 import GRRNN as net
 import numpy as np
 import os
+import zipfile
+from kaggle.api.kaggle_api_extended import KaggleApi
 
 class LabelSomCE(nn.Module):
 	def __init__(self):
@@ -36,45 +38,37 @@ class LabelSomCE(nn.Module):
 		loss = confidence * nll_loss + smoothing * smooth_loss
 
 		return loss.mean()
-
-def download(folder,thetarfile):
-    import urllib.request
-    import tarfile
-    ftpstream = urllib.request.urlopen(thetarfile)
-    thetarfile = tarfile.open(fileobj=ftpstream, mode="r|gz")
-    thetarfile.extractall(folder)
-    thetarfile.close()
-    
-def download_cerug(folder):
-    thetarfile = "https://zenodo.org/records/13258163/files/CERUG-EN-test-images.tar.gz?download=1"
-    download(folder,thetarfile)
-    thetarfile = "https://zenodo.org/records/13258163/files/CERUG-EN-train-images.tar.gz?download=1"
-    download(folder,thetarfile)
-
-def download_firemaker(folder):
-    thetarfile = "https://zenodo.org/records/13258163/files/Firemaker-train-images.tar.gz?download=1"
-    download(folder,thetarfile)
-    thetarfile = "https://zenodo.org/records/13258163/files/Firemaker-test-images.tar.gz?download=1"
-    download(folder,thetarfile)
     
 class DeepWriter_Train:
-    def __init__(self,dataset='CERUG-EN',imgtype='png',mode='vertical'):
+    def __init__(self,dataset='CERUG-RU',imgtype='png',mode='vertical'):
     
         self.dataset = dataset
         self.folder = dataset
-        #self.labelfolder = 'dataset/'
+        self.train_folder = os.path.join(self.folder, 'train')
+        self.test_folder  = os.path.join(self.folder, 'test')
         
-        if not os.path.exists(self.folder):
-            if dataset == 'CERUG-EN':
-                download_cerug(dataset)
-            elif dataset == 'Firemaker':
-                download_firemaker(dataset)
-            else:
-                print('****** Warning: the dataset %s does not existed!******'%dataset)
-                print('Please go to the following website to check how to download the dataset:')
-                print('https://www.ai.rug.nl/~sheng/writeridataset.html')
-                print('*'*20)
-                raise ValueError('Dataset: %s does not existed!'%dataset)
+        for d in (self.train_folder, self.test_folder):
+            os.makedirs(d, exist_ok=True)
+
+        # скачиваем и распаковываем через Kaggle API
+        if not os.listdir(self.train_folder) or not os.listdir(self.test_folder):
+            api = KaggleApi()
+            api.authenticate()
+
+            # скачиваем и распаковываем весь датасет сразу
+            print(f"[1/2] Скачать и распаковать датасет в '{self.folder}' …")
+            api.dataset_download_files(
+                'constantinwerner/cyrillic-handwriting-dataset',
+                path=self.folder,
+                unzip=True
+            )
+            print("[1/2] Скачивание и распаковка завершены.")
+
+            # Проверяем, что в папках train/ и test/ что-то появилось
+            train_count = len(os.listdir(self.train_folder))
+            test_count  = len(os.listdir(self.test_folder))
+            print(f"[2/2] В '{self.train_folder}' — {train_count} файлов.")
+            print(f"[2/2] В '{self.test_folder}' — {test_count} файлов.")
         
         self.labelfolder = self.folder
         self.train_folder = self.folder+'/train/'
@@ -231,14 +225,5 @@ if __name__ == '__main__':
     modelist = ['vertical','horzontal']
     mode = modelist[0]
     
-    mod = DeepWriter_Train(dataset='CERUG-EN',mode=mode)
+    mod = DeepWriter_Train(dataset='CERUG-RU',mode=mode)
     mod.train_loops(0,50)
-
-
-
-
-					
-
-
-
-

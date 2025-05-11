@@ -112,5 +112,7 @@ if __name__ == '__main__':
     register_person('Landish', ['photos/L1.png', 'photos/L2.png', 'photos/L3.png'])
 
     # -- Шаг 2: идентифицируем нового образца
-    best, conf = identify_with_calibration('photos/inputL1.png', temperature=0.5)
+    best, conf = identify_with_calibration('photos/input.png', temperature=0.5)
     print(f"Это {best} (уверенность: {conf:.1f} %)")
+
+# C:\Users\Zimon\.cache\kagglehub\datasets\constantinwerner\cyrillic-handwriting-dataset\versions\4
