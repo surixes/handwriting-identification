@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Верификация рукописного текста | Кто я?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="icon"
+      href="image.png"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 50%,
+          #d946ef 100%
+        );
+      }
+
+      .dropzone {
+        border: 2px dashed #cbd5e1;
+        transition: all 0.3s ease;
+      }
+
+      .dropzone.active {
+        border-color: #6366f1;
+        background-color: #eef2ff;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+      }
+
+      .modal {
+        transition: all 0.3s ease;
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .result-card {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+      }
+
+      .result-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="gradient-bg text-white">
+        <div class="container mx-auto px-4 py-6">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              <i class="fas fa-signature text-2xl"></i>
+              <h1 class="text-2xl font-bold">Кто я?</h1>
+            </div>
+            <nav>
+              <ul class="flex space-x-6">
+                <li>
+                  <a
+                    href="index.html"
+                    class="hover:underline font-medium nav-link"
+                    >Главная</a
+                  >
+                </li>
+                <li>
+                  <a href="docs.html" class="hover:underline nav-link"
+                    >Документация</a
+                  >
+                </li>
+                <li>
+                  <a href="contacts.html" class="hover:underline nav-link"
+                    >Контакты</a
+                  >
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">
+              Верификация рукописного текста
+            </h2>
+            <p class="text-slate-600 max-w-2xl mx-auto">
+              Определите автора рукописного текста с помощью нашей системы
+              верификации. Загрузите образец почерка для анализа и сравнения с
+              базой данных.
+            </p>
+          </div>
+
+          <!-- Verification Section -->
+          <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4 flex items-center">
+              <i class="fas fa-fingerprint mr-2 text-indigo-500"></i>
+              Проверить автора
+            </h3>
+
+            <div
+              id="dropzone"
+              class="dropzone rounded-lg p-8 mb-4 text-center cursor-pointer"
+            >
+              <div id="dropzone-content">
+                <i
+                  class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-3"
+                ></i>
+                <p class="text-slate-500 mb-1">
+                  Перетащите сюда изображение рукописного текста
+                </p>
+                <p class="text-sm text-slate-400">
+                  или нажмите для выбора файла
+                </p>
+                <input
+                  type="file"
+                  id="file-input"
+                  class="hidden"
+                  accept="image/*"
+                />
+              </div>
+              <div id="preview-container" class="hidden">
+                <img
+                  id="preview-image"
+                  src="#"
+                  alt="Preview"
+                  class="max-h-64 mx-auto mb-4 rounded"
+                />
+                <button
+                  id="change-image"
+                  class="text-indigo-500 hover:underline"
+                >
+                  Выбрать другой файл
+                </button>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="text-sm text-slate-500">
+                  Поддерживаемые форматы: JPG, PNG, PDF
+                </p>
+              </div>
+              <button
+                id="verify-btn"
+                class="btn-primary text-white px-6 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
+              >
+                <i class="fas fa-search mr-2"></i> Проверить
+              </button>
+            </div>
+          </div>
+
+          <!-- Results Section -->
+          <div
+            id="results-section"
+            class="hidden bg-white rounded-xl shadow-md p-6 mb-8"
+          >
+            <h3 class="text-xl font-semibold mb-4 flex items-center">
+              <i class="fas fa-chart-bar mr-2 text-indigo-500"></i>
+              Результаты верификации
+            </h3>
+
+            <!-- Контейнер для вывода результатов -->
+            <div id="result-container" class="hidden">
+              <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-4"
+                id="result-content"
+              >
+                <!-- Сюда будут вставляться клонированные шаблоны -->
+              </div>
+            </div>
+
+            <!-- Шаблон для одной карточки (должен быть вне основного контента) -->
+            <div id="result-template" class="hidden">
+              <div
+                class="result-card bg-white border border-slate-200 rounded-lg p-4"
+              >
+                <div class="flex items-center mb-3">
+                  <div
+                    class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3"
+                  >
+                    <i class="fas fa-user text-indigo-500"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium" data-field="user-name">
+                      Загрузка...
+                    </h4>
+                    <p class="text-sm text-slate-500" data-field="user-id">
+                      ID:
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm text-slate-600">Совпадение:</span>
+                  <span class="font-bold" data-field="confidence-value"
+                    >0%</span
+                  >
+                </div>
+
+                <div class="text-sm text-slate-500" data-field="user-notes">
+                  <!-- Сюда добавятся заметки -->
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <button
+                id="new-verification"
+                class="text-indigo-500 hover:underline flex items-center"
+              >
+                <i class="fas fa-redo mr-2"></i> Выполнить новую проверку
+              </button>
+            </div>
+          </div>
+
+          <!-- Add User Section -->
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-semibold flex items-center">
+                <i class="fas fa-user-plus mr-2 text-indigo-500"></i>
+                Добавить нового пользователя
+              </h3>
+              <button
+                id="add-user-btn"
+                class="btn-primary text-white px-4 py-2 rounded-lg font-medium flex items-center"
+              >
+                <i class="fas fa-plus mr-2"></i> Добавить
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label
+                  for="full-name"
+                  class="block text-sm font-medium text-slate-700 mb-1"
+                  >ФИО</label
+                >
+                <input
+                  type="text"
+                  id="full-name"
+                  class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div>
+                <label
+                  for="user-id"
+                  class="block text-sm font-medium text-slate-700 mb-1"
+                  >Ник пользователя</label
+                >
+                <input
+                  type="text"
+                  id="user-id"
+                  class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-slate-700 mb-1"
+                >Образцы почерка</label
+              >
+              <div class="grid grid-cols-4 gap-4" id="photo-container">
+                <!-- Первый слот -->
+                <div class="photo-item relative h-24 rounded-lg border-2 border-dashed border-blue-500 bg-blue-50"
+                    data-status="empty">
+                  <input type="file" 
+                        class="photo-input absolute inset-0 opacity-0 w-full h-full cursor-pointer" 
+                        accept="image/*">
+                  <div class="preview-content flex items-center justify-center h-full">
+                    <i class="fas fa-plus text-blue-500"></i>
+                  </div>
+                  <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                    <i class="fas fa-times text-xs"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="notes"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >Примечания</label
+              >
+              <textarea
+                id="notes"
+                rows="3"
+                class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-slate-800 text-white py-8">
+        <div class="container mx-auto px-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Левый блок -->
+            <div class="md:justify-self-start max-w-[500px] md:max-w-[400px]">
+              <div class="flex items-center space-x-2 mb-4">
+                <i class="fas fa-signature text-xl"></i>
+                <span class="font-bold">Кто я?</span>
+              </div>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Система верификации рукописного текста с использованием
+                современных технологий искусственного интеллекта.
+              </p>
+            </div>
+
+            <!-- Правый блок -->
+            <div class="md:justify-self-end">
+              <h4 class="font-semibold mb-4">Контакты</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <i
+                    class="fas fa-map-marker-alt text-slate-400 mr-2 text-sm"
+                  ></i>
+                  <span class="text-slate-400"
+                    >г. Москва, улица Образцова, 9с9</span
+                  >
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-phone-alt text-slate-400 mr-2 text-sm"></i>
+                  <span class="text-slate-400">+7 (961) 693-00-63</span>
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-envelope text-slate-400 mr-2 text-sm"></i>
+                  <span class="text-slate-400">support@kto-ya.ru</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="border-t border-slate-700 pt-6 flex flex-col md:flex-row justify-between items-center"
+          >
+            <p class="text-slate-400 text-sm mb-4 md:mb-0">
+              © 2025 Кто я?. Все права защищены.
+            </p>
+
+            <div class="flex space-x-6">
+              <a
+                href="https://t.me/spok_noki5"
+                class="hover:text-indigo-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-telegram"></i
+              ></a>
+              <a
+                href="https://vk.com/zimnin"
+                class="hover:text-indigo-300"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-vk"></i
+              ></a>
+              <a
+                href="https://github.com/surixes/handwriting-identification"
+                class="hover:text-indigo-300"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-github"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Add User Modal -->
+    <div
+      id="add-user-modal"
+      class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+    >
+      <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-semibold">Новый пользователь добавлен</h3>
+          <button id="close-modal" class="text-slate-400 hover:text-slate-600">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="flex items-center mb-6">
+          <div
+            class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mr-4"
+          >
+            <i class="fas fa-user-check text-2xl text-indigo-500"></i>
+          </div>
+          <div>
+            <h4 class="font-medium" id="modal-user-name">Иван Петров</h4>
+            <p class="text-sm text-slate-500">
+              ID: <span id="modal-user-id">235689</span>
+            </p>
+          </div>
+        </div>
+        <p class="text-slate-600 mb-6">
+          Пользователь успешно добавлен в базу данных для верификации. Теперь
+          система сможет определять его рукописный текст.
+        </p>
+        <div class="flex justify-end">
+          <button
+            id="confirm-modal"
+            class="btn-primary text-white px-6 py-2 rounded-lg font-medium"
+          >
+            Готово
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const addUserBtn = document.getElementById("add-user-btn");
+        const photoContainer = document.getElementById("photo-container");
+        const photoTemplate = document.getElementById("photo-template");
+
+        addUserBtn.addEventListener("click", async () => {
+          try {
+            const formData = new FormData();
+
+            // Собираем текстовые данные
+            formData.append(
+              "full_name",
+              document.getElementById("full-name").value
+            );
+            formData.append(
+              "user_id",
+              document.getElementById("user-id").value
+            );
+            formData.append("notes", document.getElementById("notes").value);
+
+            // Собираем файлы
+            const fileInputs = document.querySelectorAll(".photo-input");
+            fileInputs.forEach((input) => {
+              if (input.files[0]) {
+                formData.append("samples", input.files[0]);
+              }
+            });
+
+
+
+            // Отправка
+            addUserBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin mr-2"></i> Отправка...';
+            addUserBtn.disabled = true;
+
+            const response = await fetch("http://127.0.0.1:8000/users", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (!response.ok) {
+              const error = await response.json();
+              throw new Error(error.detail || "Ошибка сервера");
+            }
+
+            modalUserName.textContent = fullNameInput.value;
+            modalUserId.textContent = userIdInput.value;
+            addUserModal.classList.add("active");
+
+            resetForm();
+          } catch (error) {
+            
+          } finally {
+            addUserBtn.innerHTML = '<i class="fas fa-plus mr-2"></i> Добавить';
+            addUserBtn.disabled = false;
+          }
+        });
+        
+        function resetForm() {
+          document.getElementById("full-name").value = "";
+          document.getElementById("user-id").value = "";
+          document.getElementById("notes").value = "";
+          
+          // Очищаем фото-контейнер и добавляем начальный слот
+          const photoContainer = document.getElementById("photo-container");
+          photoContainer.innerHTML = `
+            <div class="photo-item relative h-24 rounded-lg border-2 border-dashed border-indigo-500 bg-indigo-50 cursor-pointer"
+                data-status="empty">
+              <input type="file" 
+                    class="photo-input absolute inset-0 opacity-0 w-full h-full cursor-pointer" 
+                    accept="image/*">
+              <div class="preview-content flex items-center justify-center h-full">
+                <i class="fas fa-plus text-indigo-500"></i>
+              </div>
+              <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 transition-opacity">
+                <i class="fas fa-times text-xs"></i>
+              </button>
+            </div>
+          `;
+          
+          // Переинициализируем обработчики
+          initPhotoHandlers();
+        }
+
+        // Обработчики для динамических элементов
+        photoContainer.addEventListener("click", (e) => {
+          if (e.target.closest(".remove-photo")) {
+            e.target.closest(".photo-item").remove();
+          }
+        });
+
+        photoContainer.addEventListener("change", (e) => {
+          if (e.target.classList.contains("photo-input")) {
+            handleFileSelect(e.target);
+          }
+        });
+
+        function addPhotoSlot() {
+          const container = document.getElementById('photo-container');
+          if (!container) return;
+
+          const lastItem = container.lastElementChild;
+          if (!lastItem || !lastItem.dataset) return;
+
+          if (lastItem.dataset.status === 'filled') {
+            const clone = lastItem.cloneNode(true);
+            clone.dataset.status = 'empty';
+            clone.querySelector('input').value = '';
+            clone.querySelector('.preview-content').innerHTML = '<i class="fas fa-plus"></i>';
+            container.appendChild(clone);
+          }
+        }
+
+        function handleFileSelect(input) {
+          const photoItem = input.closest('.photo-item');
+          
+          if (input.files[0]) {
+            // Показать превью
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              photoItem.querySelector('.preview-content').innerHTML = 
+                `<img src="${e.target.result}" class="object-cover h-full w-full">`;
+            };
+            reader.readAsDataURL(input.files[0]);
+
+            // Обновить статус
+            photoItem.dataset.status = 'filled';
+            
+            // Добавить новый слот через 300 мс
+            setTimeout(() => addPhotoSlot(), 300);
+          }
+        }
+      });
+    </script>
+
+    <script>
+      // Dropzone functionality
+      const dropzone = document.getElementById("dropzone");
+      const fileInput = document.getElementById("file-input");
+      const previewContainer = document.getElementById("preview-container");
+      const previewImage = document.getElementById("preview-image");
+      const dropzoneContent = document.getElementById("dropzone-content");
+      const verifyBtn = document.getElementById("verify-btn");
+      const resultsSection = document.getElementById("results-section");
+      const newVerificationBtn = document.getElementById("new-verification");
+      const changeImageBtn = document.getElementById("change-image");
+
+      // Modal elements
+      const addUserBtn = document.getElementById("add-user-btn");
+      const addUserModal = document.getElementById("add-user-modal");
+      const closeModalBtn = document.getElementById("close-modal");
+      const confirmModalBtn = document.getElementById("confirm-modal");
+      const modalUserName = document.getElementById("modal-user-name");
+      const modalUserId = document.getElementById("modal-user-id");
+
+      // Add user form elements
+      const fullNameInput = document.getElementById("full-name");
+      const userIdInput = document.getElementById("user-id");
+
+      // Highlight dropzone when dragging over
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, highlight, false);
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, unhighlight, false);
+      });
+
+      function highlight(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add("active");
+      }
+
+      function unhighlight(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove("active");
+      }
+
+      // Handle dropped files
+      dropzone.addEventListener("drop", handleDrop, false);
+      dropzone.addEventListener("click", () => fileInput.click());
+
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+      }
+
+      fileInput.addEventListener("change", () => {
+        handleFiles(fileInput.files);
+      });
+
+      function handleFiles(files) {
+        if (files.length > 0) {
+          const file = files[0];
+          if (file.type.match("image.*")) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              previewImage.src = e.target.result;
+              dropzoneContent.classList.add("hidden");
+              previewContainer.classList.remove("hidden");
+              verifyBtn.disabled = false;
+            };
+
+            reader.readAsDataURL(file);
+          } else {
+            alert("Пожалуйста, загрузите изображение (JPG, PNG)");
+          }
+        }
+      }
+
+      // Change image button
+      changeImageBtn.addEventListener("click", () => {
+        fileInput.value = "";
+        previewContainer.classList.add("hidden");
+        dropzoneContent.classList.remove("hidden");
+        verifyBtn.disabled = true;
+      });
+
+      // Verify button
+      verifyBtn.addEventListener("click", () => {
+        // Simulate verification process
+        verifyBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin mr-2"></i> Проверка...';
+        verifyBtn.disabled = true;
+
+        setTimeout(() => {
+          resultsSection.classList.remove("hidden");
+          verifyBtn.innerHTML = '<i class="fas fa-search mr-2"></i> Проверить';
+          verifyBtn.disabled = false;
+
+          // Scroll to results
+          resultsSection.scrollIntoView({ behavior: "smooth" });
+        }, 2000);
+      });
+
+      // New verification button
+      newVerificationBtn.addEventListener("click", () => {
+        resultsSection.classList.add("hidden");
+        fileInput.value = "";
+        previewContainer.classList.add("hidden");
+        dropzoneContent.classList.remove("hidden");
+        verifyBtn.disabled = true;
+
+        // Scroll to dropzone
+        dropzone.scrollIntoView({ behavior: "smooth" });
+      });
+
+      // Add user modal
+      addUserBtn.addEventListener("click", () => {
+        if (
+          fullNameInput.value.trim() === "" ||
+          userIdInput.value.trim() === ""
+        ) {
+          alert("Пожалуйста, заполните все обязательные поля");
+          return;
+        }
+
+        
+      });
+
+      closeModalBtn.addEventListener("click", () => {
+        addUserModal.classList.remove("active");
+      });
+
+      confirmModalBtn.addEventListener("click", () => {
+        addUserModal.classList.remove("active");
+
+        // Reset form
+        fullNameInput.value = "";
+        userIdInput.value = "";
+        document.getElementById("notes").value = "";
+      });
+
+      // Close modal when clicking outside
+      addUserModal.addEventListener("click", (e) => {
+        if (e.target === addUserModal) {
+          addUserModal.classList.remove("active");
+        }
+      });
+
+      function initPhotoHandlers() {
+        const photoContainer = document.getElementById('photo-container');
+        const photoTemplate = document.getElementById('photo-template');
+
+        // Проверка существования элементов
+        if (!photoContainer || !photoTemplate) {
+          console.error('Не найдены обязательные элементы!');
+          return;
+        }
+
+        // Обработчик для удаления
+        photoContainer.addEventListener('click', (e) => {
+          if (e.target.closest('.remove-photo')) {
+            const photoItem = e.target.closest('.photo-item');
+            if (photoItem) photoItem.remove();
+          }
+        });
+
+        // Обработчик загрузки файлов
+        photoContainer.addEventListener('change', (e) => {
+          const input = e.target;
+          if (input.classList.contains('photo-input') && input.files[0]) {
+            handleFileUpload(input);
+            addNewPhotoSlot();
+          }
+        });
+
+        // Добавьте эти функции внутри initPhotoHandlers
+        function handleFileUpload(input) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            input.closest('.photo-item').querySelector('.preview-content').innerHTML = 
+              `<img src="${e.target.result}" class="object-cover h-full w-full rounded-lg">`;
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+
+        function addNewPhotoSlot() {
+          const clone = document.importNode(photoTemplate.content, true);
+          photoContainer.appendChild(clone);
+        }
+
+        // Инициализация первого слота
+        addNewPhotoSlot();
+      }
+
+      // Запуск после полной загрузки DOM
+      document.addEventListener('DOMContentLoaded', initPhotoHandlers);
+
+      // Инициализация при загрузке страницы
+      document.addEventListener('DOMContentLoaded', () => {
+        initPhotoHandlers();
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const fileInput = document.getElementById("file-input");
+        const verifyBtn = document.getElementById("verify-btn");
+        const dropzone = document.getElementById("dropzone");
+        const previewContainer = document.getElementById("preview-container");
+        const previewImage = document.getElementById("preview-image");
+
+        // Обработчик выбора файла
+        fileInput.addEventListener("change", handleFileSelect);
+        verifyBtn.addEventListener("click", handleVerification);
+
+        // Drag & drop обработчики
+        dropzone.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          dropzone.classList.add("border-indigo-500", "bg-indigo-50");
+        });
+
+        dropzone.addEventListener("dragleave", () => {
+          dropzone.classList.remove("border-indigo-500", "bg-indigo-50");
+        });
+
+        dropzone.addEventListener("drop", (e) => {
+          e.preventDefault();
+          dropzone.classList.remove("border-indigo-500", "bg-indigo-50");
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            fileInput.files = files;
+            handleFileSelect();
+          }
+        });
+
+        function handleFileSelect() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              previewImage.src = e.target.result;
+              document
+                .getElementById("dropzone-content")
+                .classList.add("hidden");
+              previewContainer.classList.remove("hidden");
+              verifyBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+
+        async function handleVerification() {
+          const file = fileInput.files[0];
+          if (!file) return;
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          verifyBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin mr-2"></i> Проверка...';
+          verifyBtn.disabled = true;
+
+          try {
+            const response = await fetch("http://127.0.0.1:8000/verify", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            showVerificationResult(result);
+          } catch (error) {
+            console.error("Ошибка:", error);
+            alert("Произошла ошибка при проверке файла");
+          } finally {
+            verifyBtn.innerHTML =
+              '<i class="fas fa-search mr-2"></i> Проверить';
+            verifyBtn.disabled = false;
+          }
+        }
+
+        function showVerificationResult(response) {
+          console.log("Processing result:", response); // Добавляем лог
+          
+          const resultContainer = document.getElementById("result-container");
+          const resultContent = document.getElementById("result-content");
+          resultContent.innerHTML = "";
+
+          // Добавляем проверку структуры ответа
+          if (!response?.result?.length) {
+            console.error("Invalid response structure");
+            resultContent.innerHTML = `
+              <div class="text-center text-red-500 py-4">
+                Ошибка: некорректный формат ответа сервера
+              </div>
+            `;
+            resultContainer.classList.remove("hidden");
+            return;
+          }
+
+          response.result.forEach((userResult) => {
+            const template = document.getElementById("result-template");
+            const resultCard = template.cloneNode(true);
+            resultCard.id = "";
+            resultCard.classList.remove("hidden");
+
+            // Добавляем проверку наличия необходимых полей
+            let confidence = userResult.score ?? 
+                              userResult.probability ?? 
+                              userResult.match_percent ?? 
+                              0;
+
+            confidence = Math.round(confidence * 100);
+
+            const elements = {
+              "user-name": userResult.user_info?.[0]?.full_name || "Неизвестный",
+              "user-id": `ID: ${userResult.user_id || "N/A"}`,
+              "confidence-value": `${confidence}%`,
+              "user-notes": userResult.notes || "Нет дополнительной информации"
+            };
+
+            // Обновляем элементы с проверкой
+            Object.entries(elements).forEach(([field, value]) => {
+              const element = resultCard.querySelector(`[data-field="${field}"]`);
+              if (element) {
+                element.textContent = value;
+                if (field === "confidence-value") {
+                  element.style.color = confidence > 50 ? "#10b981" : "#ef4444";
+                  element.style.fontWeight = "600";
+                }
+              }
+            });
+
+            resultContent.appendChild(resultCard);
+          });
+
+          resultContainer.classList.remove("hidden");
+        }
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const photoContainer = document.getElementById("photo-container");
+        const photoTemplate = document.getElementById("photo-template");
+        const slots = Array.from({ length: 4 }, (_, i) => ({
+          element: null,
+          index: i,
+          filled: false,
+        }));
+
+        // Инициализация слотов
+        slots.forEach((slot, index) => {
+          const clone = photoTemplate.content.cloneNode(true);
+          const photoItem = clone.querySelector(".photo-item");
+          const input = clone.querySelector(".photo-input");
+
+          input.dataset.index = index;
+          photoItem.dataset.index = index;
+
+          if (index === 0) {
+            input.disabled = false;
+            photoItem.classList.add("border-indigo-500", "cursor-pointer");
+          } else {
+            photoItem.classList.add("border-slate-300", "opacity-50");
+          }
+
+          slot.element = photoItem;
+          photoContainer.appendChild(clone);
+        });
+
+        // Обработчик выбора файла
+        photoContainer.addEventListener("change", async (e) => {
+          if (!e.target.classList.contains("photo-input")) return;
+
+          const index = parseInt(e.target.dataset.index);
+          const file = e.target.files[0];
+          const slot = slots[index];
+          const nextSlot = slots[index + 1];
+
+          if (file && file.type.startsWith("image/")) {
+            // Обновляем текущий слот
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              const preview = slot.element.querySelector(".preview-content");
+              const removeBtn = slot.element.querySelector(".remove-photo");
+
+              preview.innerHTML = `
+                            <img src="${event.target.result}" 
+                                class="object-cover h-full w-full rounded-lg"
+                                alt="Preview ${index}">
+                        `;
+              removeBtn.classList.remove("opacity-0");
+              removeBtn.classList.add("opacity-100");
+
+              slot.element.classList.remove("border-indigo-500");
+              slot.element.classList.add("border-green-500");
+              slot.filled = true;
+            };
+            reader.readAsDataURL(file);
+
+            // Активируем следующий слот
+            if (nextSlot) {
+              nextSlot.element.classList.remove(
+                "opacity-50",
+                "border-slate-300"
+              );
+              nextSlot.element.classList.add("border-indigo-500");
+              nextSlot.element.querySelector("input").disabled = false;
+            }
+          }
+        });
+
+        // В обработчике удаления фото
+        photoContainer.addEventListener("click", (e) => {
+          if (!e.target.closest(".remove-photo")) return;
+
+          const photoItem = e.target.closest(".photo-item");
+          const index = parseInt(photoItem.dataset.index);
+
+          // Сбрасываем текущий и все последующие слоты
+          slots.slice(index).forEach((slot) => {
+            const input = slot.element.querySelector("input");
+            const preview = slot.element.querySelector(".preview-content");
+            const removeBtn = slot.element.querySelector(".remove-photo");
+
+            input.value = "";
+            input.disabled = slot.index !== index;
+            preview.innerHTML = `<i class="fas fa-plus text-slate-400"></i>`;
+            removeBtn.classList.remove("opacity-100");
+            removeBtn.classList.add("opacity-0");
+
+            // Исправлено: убираем все цветные классы и возвращаем исходный
+            slot.element.classList.remove(
+              "border-green-500",
+              "border-indigo-500",
+              "border-slate-300"
+            );
+
+            // Добавляем правильный базовый класс
+            slot.element.classList.add("border-slate-300");
+
+            if (slot.index > index) {
+              slot.element.classList.add("opacity-50");
+            }
+            slot.filled = false;
+          });
+
+          // Активируем текущий слот для повторной загрузки
+          photoItem.classList.remove("border-slate-300"); // Убираем серый
+          photoItem.classList.add("border-indigo-500"); // Добавляем синий
+          photoItem.querySelector("input").disabled = false;
+        });
+      });
+
+      // Для отправки формы
+      async function handleUserRegistration() {
+        const photoInputs = document.querySelectorAll(".photo-input");
+        const photos = Array.from(photoInputs).map((input) => input.files[0]);
+
+        // Проверка что все фото загружены
+        if (photos.some((file) => !file)) {
+          alert("Пожалуйста, загрузите все 4 фотографии");
+          return;
+        }
+
+        const formData = new FormData();
+        photos.forEach((file, index) => {
+          formData.append(`photos`, file);
+        });
+
+        // Отправка данных на сервер
+        // ... ваш код отправки ...
+      }
+    </script>
+
+    <style>
+      #photo-container {
+        width: 100%; /* Занимает всю доступную ширину */
+      }
+
+      .photo-item {
+        border-color: #3b82f6; /* Синяя граница */
+        background-color: #ffffff; /* Светло-синий фон */
+      }
+
+      .photo-item[data-status="filled"] {
+        border-color: #ef4444; /* Красная граница */
+        background-color: #fee2e2; /* Светло-красный фон */
+        position: relative;
+      }
+
+      .remove-photo {
+        display: none;
+      }
+
+      .photo-item[data-status="filled"] .remove-photo {
+        display: flex !important; /* Принудительное отображение */
+        opacity: 1 !important;
+      }
+
+      .photo-item:hover .remove-photo {
+        opacity: 0.9;
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Контакты | Кто я?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="icon"
+      href="image.png"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 50%,
+          #d946ef 100%
+        );
+      }
+
+      .contact-card {
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      .contact-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      .map-container {
+        height: 400px;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-input {
+        transition: all 0.2s ease;
+      }
+
+      .form-input:focus {
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="gradient-bg text-white">
+      <div class="container mx-auto px-4 py-6">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-signature text-2xl"></i>
+            <h1 class="text-2xl font-bold">Кто я?</h1>
+          </div>
+          <nav>
+            <ul class="flex space-x-6">
+              <li>
+                <a
+                  href="index.html"
+                  class="hover:underline font-medium nav-link"
+                  >Главная</a
+                >
+              </li>
+              <li>
+                <a href="docs.html" class="hover:underline nav-link"
+                  >Документация</a
+                >
+              </li>
+              <li>
+                <a href="contacts.html" class="hover:underline nav-link"
+                  >Контакты</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-12">
+      <div class="max-w-6xl mx-auto">
+        <!-- Page Header -->
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-4">Свяжитесь с нами</h2>
+          <p class="text-slate-600 max-w-2xl mx-auto text-lg">
+            У вас есть вопросы или предложения? Наша команда всегда готова
+            помочь вам.
+          </p>
+        </div>
+
+        <!-- Contact Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div class="contact-card bg-white rounded-xl p-6">
+            <div
+              class="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-map-marker-alt text-2xl text-indigo-500"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Наш адрес</h3>
+            <p class="text-slate-600 mb-4">г. Москва, улица Образцова, 9с9</p>
+            <a
+              href="https://yandex.ru/maps/213/moscow/house/ulitsa_obraztsova_9s9/Z04YcAdpSUIDQFtvfXt5dnVibA==/?ll=37.608748%2C55.787338&z=17.86"
+              class="text-indigo-500 hover:underline flex items-center"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Посмотреть на карте
+              <i class="fas fa-arrow-right ml-2 text-sm"></i>
+            </a>
+          </div>
+
+          <div class="contact-card bg-white rounded-xl p-6">
+            <div
+              class="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-envelope text-2xl text-indigo-500"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Электронная почта</h3>
+            <p class="text-slate-600 mb-4">
+              support@kto-ya.ru<br />
+              info@kto-ya.ru
+            </p>
+            <a
+              href="mailto:support@kto-ya.ru"
+              class="text-indigo-500 hover:underline flex items-center"
+            >
+              Написать письмо <i class="fas fa-arrow-right ml-2 text-sm"></i>
+            </a>
+          </div>
+
+          <div class="contact-card bg-white rounded-xl p-6">
+            <div
+              class="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-phone-alt text-2xl text-indigo-500"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Телефон</h3>
+            <p class="text-slate-600 mb-4">+7 (961) 693-00-63<br /></p>
+            <a
+              href="tel:+7(961)693-00-63"
+              class="text-indigo-500 hover:underline flex items-center"
+            >
+              Позвонить нам <i class="fas fa-arrow-right ml-2 text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Map and Form Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- Map -->
+          <div>
+            <h3 class="text-2xl font-semibold mb-6 flex items-center">
+              <i class="fas fa-map-marked-alt text-indigo-500 mr-3"></i>
+              Мы на карте
+            </h3>
+            <div class="map-container">
+              <iframe
+                src="https://yandex.ru/map-widget/v1/?um=constructor%3A41a4064ca1bf9544e742ea86dfa1899c9fcfa2110e4f85128d049f70a87fb702&amp;source=constructor"
+                width="725"
+                height="594"
+                frameborder="0"
+              ></iframe>
+            </div>
+
+            <div class="mt-6 grid grid-cols-2 gap-4">
+              <div class="bg-white rounded-lg p-4 text-center">
+                <div class="text-indigo-500 mb-2">
+                  <i class="fas fa-subway text-2xl"></i>
+                </div>
+                <h4 class="font-medium mb-1">Метро</h4>
+                <p class="text-sm text-slate-600">
+                  Станция "Марьина роща"<br />
+                  Выход №4
+                </p>
+              </div>
+
+              <div class="bg-white rounded-lg p-4 text-center">
+                <div class="text-indigo-500 mb-2">
+                  <i class="fas fa-utensils text-2xl"></i>
+                </div>
+                <h4 class="font-medium mb-1">Столовая</h4>
+                <p class="text-sm text-slate-600">
+                  Столовая прямо в здании!<br />
+                  Очень дёшево)
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div>
+            <h3 class="text-2xl font-semibold mb-6 flex items-center">
+              <i class="fas fa-paper-plane text-indigo-500 mr-3"></i>
+              Форма обратной связи
+            </h3>
+
+            <form 
+              class="bg-white rounded-xl p-6 shadow-md"
+              method="POST"
+              action="http://localhost:8000/feedback"
+              id="feedbackForm"
+            >
+              <!-- Добавлены атрибуты name для всех полей -->
+              <div class="mb-6">
+                <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Ваше имя</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="w-full px-4 py-3 border border-slate-300 rounded-lg form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Иван Иванов"
+                  required
+                />
+              </div>
+
+              <div class="mb-6">
+                <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Электронная почта</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="w-full px-4 py-3 border border-slate-300 rounded-lg form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="example@mail.ru"
+                  required
+                />
+              </div>
+
+              <div class="mb-6">
+                <label for="subject" class="block text-sm font-medium text-slate-700 mb-1">Тема сообщения</label>
+                <select
+                  id="subject"
+                  name="subject"
+                  class="w-full px-4 py-3 border border-slate-300 rounded-lg form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
+                >
+                  <option value="" disabled selected>Выберите тему</option>
+                  <option value="support">Техническая поддержка</option>
+                  <option value="sales">Вопросы по покупке</option>
+                  <option value="partnership">Сотрудничество</option>
+                  <option value="other">Другое</option>
+                </select>
+              </div>
+
+              <div class="mb-6">
+                <label for="message" class="block text-sm font-medium text-slate-700 mb-1">Ваше сообщение</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  class="w-full px-4 py-3 border border-slate-300 rounded-lg form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Опишите ваш вопрос или предложение..."
+                  required
+                ></textarea>
+              </div>
+
+              <div class="flex items-center mb-6">
+                <input
+                  type="checkbox"
+                  id="consent"
+                  name="consent"
+                  class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
+                  required
+                />
+                <label for="consent" class="ml-2 block text-sm text-slate-700">
+                  Я согласен на обработку персональных данных
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                class="btn-primary text-white px-6 py-3 rounded-lg font-medium w-full bg-indigo-600 hover:bg-indigo-700 transition-colors"
+              >
+                <i class="fas fa-paper-plane mr-2"></i> Отправить сообщение
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-20">
+          <h3 class="text-2xl font-semibold mb-8 text-center">
+            <i class="fas fa-question-circle text-indigo-500 mr-3"></i>
+            Часто задаваемые вопросы
+          </h3>
+
+          <div class="max-w-3xl mx-auto">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-4">
+              <div class="faq-item">
+                <button
+                  class="faq-question w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition-colors"
+                >
+                  <span class="font-medium"
+                    >Как работает система верификации рукописного текста?</span
+                  >
+                  <i
+                    class="fas fa-chevron-down text-indigo-500 transition-transform"
+                  ></i>
+                </button>
+                <div class="faq-answer px-6 pb-4 hidden">
+                  <p class="text-slate-600">
+                    Наша система использует алгоритмы машинного обучения для
+                    анализа уникальных характеристик почерка, таких как наклон
+                    букв, давление, интервалы и другие параметры. После загрузки
+                    образца текст сравнивается с базой данных для определения
+                    наиболее вероятного автора.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-4">
+              <div class="faq-item">
+                <button
+                  class="faq-question w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition-colors"
+                >
+                  <span class="font-medium"
+                    >Какие форматы файлов поддерживаются?</span
+                  >
+                  <i
+                    class="fas fa-chevron-down text-indigo-500 transition-transform"
+                  ></i>
+                </button>
+                <div class="faq-answer px-6 pb-4 hidden">
+                  <p class="text-slate-600">
+                    Вы можете загружать изображения в форматах JPG или PNG. Для
+                    достижения наилучших результатов рекомендуем использовать
+                    изображения с разрешением не менее 300 DPI и хорошим
+                    контрастом между текстом и фоном.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-4">
+              <div class="faq-item">
+                <button
+                  class="faq-question w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition-colors"
+                >
+                  <span class="font-medium"
+                    >Как долго занимает процесс верификации?</span
+                  >
+                  <i
+                    class="fas fa-chevron-down text-indigo-500 transition-transform"
+                  ></i>
+                </button>
+                <div class="faq-answer px-6 pb-4 hidden">
+                  <p class="text-slate-600">
+                    В большинстве случаев анализ занимает менее 30 секунд.
+                    Однако для больших объемов текста или сложных случаев время
+                    обработки может увеличиться до нескольких минут.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-8">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <!-- Левый блок -->
+          <div class="md:justify-self-start max-w-[500px] md:max-w-[400px]">
+            <div class="flex items-center space-x-2 mb-4">
+              <i class="fas fa-signature text-xl"></i>
+              <span class="font-bold">Кто я?</span>
+            </div>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Система верификации рукописного текста с использованием
+              современных технологий искусственного интеллекта.
+            </p>
+          </div>
+
+          <!-- Правый блок -->
+          <div class="md:justify-self-end">
+            <h4 class="font-semibold mb-4">Контакты</h4>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i
+                  class="fas fa-map-marker-alt text-slate-400 mr-2 text-sm"
+                ></i>
+                <span class="text-slate-400"
+                  >г. Москва, улица Образцова, 9с9</span
+                >
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-phone-alt text-slate-400 mr-2 text-sm"></i>
+                <span class="text-slate-400">+7 (961) 693-00-63</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-envelope text-slate-400 mr-2 text-sm"></i>
+                <span class="text-slate-400">support@kto-ya.ru</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-slate-700 pt-6 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-slate-400 text-sm mb-4 md:mb-0">
+            © 2025 Кто я?. Все права защищены.
+          </p>
+
+          <div class="flex space-x-6">
+            <a
+              href="https://t.me/spok_noki5"
+              class="hover:text-indigo-300"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fab fa-telegram"></i
+            ></a>
+            <a
+              href="https://vk.com/zimnin"
+              class="hover:text-indigo-300"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><i class="fab fa-vk"></i
+            ></a>
+            <a
+              href="https://github.com/surixes/handwriting-identification"
+              class="hover:text-indigo-300"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // FAQ Accordion
+      document.addEventListener("DOMContentLoaded", () => {
+        const faqQuestions = document.querySelectorAll(".faq-question");
+
+        faqQuestions.forEach((question) => {
+          question.addEventListener("click", () => {
+            const item = question.parentElement;
+            const answer = item.querySelector(".faq-answer");
+            const icon = question.querySelector("i");
+
+            // Toggle answer
+            answer.classList.toggle("hidden");
+
+            // Rotate icon
+            icon.classList.toggle("rotate-180");
+
+            // Close other open items
+            faqQuestions.forEach((q) => {
+              if (q !== question) {
+                const otherItem = q.parentElement;
+                const otherAnswer = otherItem.querySelector(".faq-answer");
+                const otherIcon = q.querySelector("i");
+
+                otherAnswer.classList.add("hidden");
+                otherIcon.classList.remove("rotate-180");
+              }
+            });
+          });
+        });
+
+        // Form submission
+        const contactForm = document.querySelector("form");
+        if (contactForm) {
+          contactForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            // Get form values
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const subject = document.getElementById("subject").value;
+            const message = document.getElementById("message").value;
+            const consent = document.getElementById("consent").checked;
+
+            // Simple validation
+            if (!name || !email || !subject || !message || !consent) {
+              alert(
+                "Пожалуйста, заполните все обязательные поля и согласитесь на обработку данных"
+              );
+              return;
+            }
+
+            // Simulate form submission
+            const submitBtn = contactForm.querySelector(
+              'button[type="submit"]'
+            );
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin mr-2"></i> Отправка...';
+
+            setTimeout(() => {
+              submitBtn.innerHTML =
+                '<i class="fas fa-check mr-2"></i> Сообщение отправлено';
+              submitBtn.classList.remove("btn-primary");
+              submitBtn.classList.add("bg-green-500");
+
+              // Reset form after 2 seconds
+              setTimeout(() => {
+                contactForm.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                submitBtn.classList.add("btn-primary");
+                submitBtn.classList.remove("bg-green-500");
+              }, 2000);
+            }, 1500);
+          });
+        }
+      });
+      // Обработка отправки формы через AJAX
+      document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch('http://localhost:8000/feedback', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+
+          if (response.ok) {
+            e.target.reset();
+          } else {
+            alert('Ошибка при отправке формы');
+          }
+        } catch (error) {
+          console.error('Ошибка:', error);
+          alert('Произошла ошибка при отправке');
+        }
+      });
+    </script>
+  </body>
+</html>
