@@ -19,7 +19,7 @@ from torchvision.transforms import Compose, ToTensor
 import random
 
 class DatasetFromFolder(data.Dataset):
-        def __init__(self,dataset,foldername,labelfolder,imgtype='png',scale_size=(64,128),
+        def __init__(self,dataset,foldername,labelfolder,imgtype='jpg',scale_size=(64,128),
                      is_training=True):
                 super(DatasetFromFolder,self).__init__()
                 
@@ -30,12 +30,12 @@ class DatasetFromFolder(data.Dataset):
                 self.folder = foldername
                 self.dataset = dataset
                 
-                if self.dataset == 'CERUG-EN':
+                if self.dataset == 'CERUG-RU':
                     self.cerug = True
                 else:
                     self.cerug = False
                 
-                self.labelidx_name = labelfolder + dataset + 'writer_index_table.pickle'
+                self.labelidx_name = os.path.join(labelfolder, f"{dataset}_writer_index_table.pickle")
                 print(self.labelidx_name)
                 
                 self.imglist = self._get_image_list(self.folder)
@@ -70,7 +70,7 @@ class DatasetFromFolder(data.Dataset):
                         with open(savename,'wb') as fp:
                                 pickle.dump(identity_idx,fp)
                         #'''
-                        
+                print(identity_idx)        
                 return identity_idx
                                 
         # get all writer identity
@@ -84,17 +84,17 @@ class DatasetFromFolder(data.Dataset):
         
         def _get_identity(self,fname):
                 if self.cerug:
-                        return fname.split('_')[0]
+                        return fname.split('_')[2]
                 else: return fname.split('-')[0]
         
         # get all image list 
-        def _get_image_list(self,folder):
-                flist = os.listdir(folder)
-                imglist = []
-                for img in flist:
-                        if img.endswith(self.imgtype):
-                                imglist.append(img)
-                return imglist
+        def _get_image_list(self, folder):
+                imgs = []
+                for fn in os.listdir(folder):
+                        ext = fn.lower().rsplit('.',1)[-1]
+                        if ext in ('png','jpg','jpeg'):
+                                imgs.append(fn)
+                return imgs
         
         def transform(self):
                 return Compose([ToTensor(),])
@@ -146,12 +146,11 @@ class DatasetFromFolder(data.Dataset):
                 return new_img,hfirst
 
         
-        def __getitem__(self,index):
-                
+        def __getitem__(self,index):             
                 imgfile = self.imglist[index]
                 writer = self.idx_tab[self._get_identity(imgfile)]
                 
-                image = imageio.imread(self.folder + imgfile)
+                image = imageio.imread(os.path.join(self.folder, imgfile))
                 if image.ndim == 3:
                        image = np.array(Image.fromarray(image).convert('L'))
                 image,hfirst = self.resize(image)

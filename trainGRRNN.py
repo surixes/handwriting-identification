@@ -11,19 +11,24 @@
     
 """
 
+import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from torch.optim import lr_scheduler
+import numpy as np
+import pickle
 
 import dataloader as dset
 import GRRNN as net
-import numpy as np
-import os
-import zipfile
-from kaggle.api.kaggle_api_extended import KaggleApi
+import split_dataset
+
+CSV_PATH  = 'HKR_splitting.csv'
+DST_ROOT  = 'CERUG-RU'
+TRAIN_DST = os.path.join(DST_ROOT, 'train')
+TEST_DST  = os.path.join(DST_ROOT, 'test')
 
 class LabelSomCE(nn.Module):
 	def __init__(self):
@@ -40,39 +45,33 @@ class LabelSomCE(nn.Module):
 		return loss.mean()
     
 class DeepWriter_Train:
-    def __init__(self,dataset='CERUG-RU',imgtype='png',mode='vertical'):
+    def __init__(self,dataset='CERUG-RU',imgtype='jpg',mode='vertical'):
     
         self.dataset = dataset
         self.folder = dataset
-        self.train_folder = os.path.join(self.folder, 'train')
-        self.test_folder  = os.path.join(self.folder, 'test')
+        self.labelfolder = self.folder
+        self.train_folder = TRAIN_DST
+        self.test_folder  = TEST_DST
+
+        map_path = os.path.join(self.folder, f"{self.dataset}_writer_index_table.pickle")
+        if not os.path.exists(map_path):
+            all_ids = set()
+            for sub in ('train','test'):
+                folder = os.path.join(self.folder, sub)
+                for fn in os.listdir(folder):
+                    if fn.lower().endswith(('.png','jpg','jpeg')):
+                        wid = fn.split('_')[2] if self.dataset=='CERUG-RU' else fn.split('-')[0]
+                        all_ids.add(wid)
+            idx_map = {wid:i for i,wid in enumerate(sorted(all_ids))}
+            with open(map_path,'wb') as f:
+                pickle.dump(idx_map, f)
+            print(f"Собрали {len(idx_map)} writerID → индекс в {map_path}")
         
         for d in (self.train_folder, self.test_folder):
-            os.makedirs(d, exist_ok=True)
-
-        # скачиваем и распаковываем через Kaggle API
-        if not os.listdir(self.train_folder) or not os.listdir(self.test_folder):
-            api = KaggleApi()
-            api.authenticate()
-
-            # скачиваем и распаковываем весь датасет сразу
-            print(f"[1/2] Скачать и распаковать датасет в '{self.folder}' …")
-            api.dataset_download_files(
-                'constantinwerner/cyrillic-handwriting-dataset',
-                path=self.folder,
-                unzip=True
-            )
-            print("[1/2] Скачивание и распаковка завершены.")
-
-            # Проверяем, что в папках train/ и test/ что-то появилось
-            train_count = len(os.listdir(self.train_folder))
-            test_count  = len(os.listdir(self.test_folder))
-            print(f"[2/2] В '{self.train_folder}' — {train_count} файлов.")
-            print(f"[2/2] В '{self.test_folder}' — {test_count} файлов.")
-        
-        self.labelfolder = self.folder
-        self.train_folder = self.folder+'/train/'
-        self.test_folder = self.folder+'/test/'
+            cnt = len(os.listdir(d))
+            if cnt==0:
+                raise RuntimeError(f"{d} is empty!")
+            print(f"[i] {d} contains {cnt} files")
         
         self.imgtype=imgtype
         self.mode = mode
@@ -173,9 +172,9 @@ class DeepWriter_Train:
         top1 /= float(ntotal)
         top5 /= float(ntotal)
     
-        print('Testing on epoch: %d has accuracy: top1: %.2f top5: %.2f'%(epoch,top1*100,top5*100))
+        print('Testing on epoch: %d has accuracy: top1: %.2f top5: %.2f'%(epoch,float(top1*100),float(top5*100)))
         with open(self.logfile,'a') as fp:
-            fp.write('Testing epoch %d accuracy is: top1: %.2f top5: %.2f\n'%(epoch,top1*100,top5*100))
+            fp.write('Testing epoch %d accuracy is: top1: %.2f top5: %.2f\n'%(epoch,float(top1*100),float(top5*100)))
 
     def check_exists(self,epoch):
         model_out_path = self.model_dir + '/' + self.modelfile + '-model_epoch_{}.pth'.format(epoch)
@@ -221,9 +220,16 @@ class DeepWriter_Train:
                 
                 
 if __name__ == '__main__':
-	
-    modelist = ['vertical','horzontal']
-    mode = modelist[0]
-    
-    mod = DeepWriter_Train(dataset='CERUG-RU',mode=mode)
-    mod.train_loops(0,50)
+        img_src = split_dataset.extract_archive()
+        split_dataset.split_train_test(
+            csv_path=CSV_PATH,
+            src_root=img_src,
+            train_dst=TRAIN_DST,
+            test_dst=TEST_DST
+        )
+
+        try:
+            mod = DeepWriter_Train()
+            mod.train_loops(0,50)
+        except Exception as e:
+            print(f"Ошибка при обучении модели: {e}")

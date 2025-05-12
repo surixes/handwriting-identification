@@ -8,7 +8,7 @@ import numpy as np
 from torchvision.transforms import ToTensor
 
 # 1) Настройки
-BACKBONE_WEIGHTS = 'model/GRRNN_WriterIdentification_dataset_CERUG-EN_model_vertical_aug_16-model_epoch_49.pth'
+BACKBONE_WEIGHTS = 'model/GRRNN_WriterIdentification_dataset_CERUG-RU_model_vertical_aug_16-model_epoch_49.pth'
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 EMBED_DIM = 512           # размер скрытого состояния RNN в GRRNN
 PROTO_DB = 'prototypes.json'
@@ -99,9 +99,12 @@ def identify_with_calibration(path, temperature=1.0):
     # Softmax
     exps = np.exp(neg_dists - np.max(neg_dists))
     probs = exps / exps.sum()
-    idx = np.argmax(probs)
-    return names[idx], probs[idx] * 100
+    calibraited_probs = apply_platt_scaling(probs)
+    idx = np.argmax(calibraited_probs)
+    return names[idx], calibraited_probs[idx] * 100
 
+def apply_platt_scaling(probs):
+    return 1 / (1 + np.exp(-(probs)))
 
 # 5) Пример использования
 if __name__ == '__main__':

@@ -1,4 +1,9 @@
 /venv/
-/CERUG-EN/
+/CERUG-RU/
 *.log
 /__pycache__/
+.env
+2020*/
+.vscode/
+*.rar
+*.pth
