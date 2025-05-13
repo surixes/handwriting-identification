@@ -16,7 +16,7 @@ from API import router
 root_path = Path(__file__).parent.parent  # Путь к handwriting-identification/
 sys.path.append(str(root_path))
 
-from personalized_writer_id import register_person, identify
+from personalized_writer_id import register_person, identify_with_calibration
 from BD import get_user_info, register_user, add_request, get_request, create_tables
 
 app = FastAPI(title="ScriptVerify API", version="1.0")

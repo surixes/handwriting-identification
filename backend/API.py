@@ -14,7 +14,7 @@ from pathlib import Path
 root_path = Path(__file__).parent.parent  # Путь к handwriting-identification/
 sys.path.append(str(root_path))
 
-from personalized_writer_id import identify, register_person
+from personalized_writer_id import identify_with_calibration, register_person
 from utils import validate_api_key
 import uvicorn
 
