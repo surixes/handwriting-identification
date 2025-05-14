@@ -67,21 +67,21 @@ def register_person(name, sample_paths):
     save_prototypes(db)
     print(f'Зарегистрирован: {name}')
 
-# def identify(path):
-#     """
-#     Возвращает имя наиболее похожего прототипа
-#     """
-#     db = load_prototypes()
-#     if not db:
-#         raise RuntimeError("Нет зарегистрированных пользователей")
-#     query = get_embedding(path)
-#     # Косинусное сходство
-#     sims = {}
-#     for name, proto in db.items():
-#         sims[name] = np.dot(query, proto) / (np.linalg.norm(proto) + 1e-8)
-#     # выбираем максимальную
-#     best = max(sims, key=sims.get)
-#     return best, sims[best]
+def identify(path):
+    """
+    Возвращает имя наиболее похожего прототипа
+    """
+    db = load_prototypes()
+    if not db:
+        raise RuntimeError("Нет зарегистрированных пользователей")
+    query = get_embedding(path)
+    # Косинусное сходство
+    sims = {}
+    for name, proto in db.items():
+        sims[name] = np.dot(query, proto) / (np.linalg.norm(proto) + 1e-8)
+    # выбираем максимальную
+    best = max(sims, key=sims.get)
+    return best, sims[best]
 
 def identify_with_calibration(path, temperature=1.0):
     db = load_prototypes()
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     register_person('Landish', ['photos/L1.png', 'photos/L2.png', 'photos/L3.png'])
 
     # -- Шаг 2: идентифицируем нового образца
-    best, conf = identify_with_calibration('photos/input.png', temperature=0.5)
-    print(f"Это {best} (уверенность: {conf:.1f} %)")
-
-# C:\Users\Zimon\.cache\kagglehub\datasets\constantinwerner\cyrillic-handwriting-dataset\versions\4
+    #best, conf = identify_with_calibration('photos/T2.png', temperature=0.5)
+    best = identify('photos/inputM2.png')
+    #print(f"Это {best} (уверенность: {conf:.1f} %)")
+    print(best)
